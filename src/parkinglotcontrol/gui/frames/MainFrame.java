@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -35,7 +38,8 @@ public class MainFrame extends JFrame {
 	//Don´t use this builder, use ".getMainFrame()"
 	private MainFrame(){	
 		setTitle("Parking Lot Control");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		setIconImage(new ImageIcon(getClass().getResource("/parkinglotcontrol/images/logo/program_icon.png")).getImage());
 		
 		dimensionPantalla = Toolkit.getDefaultToolkit().getScreenSize();
@@ -44,7 +48,11 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		initMenuBar();
-		
+		this.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent e) {
+		        handleClosing();
+		    }
+		});
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -152,6 +160,14 @@ public class MainFrame extends JFrame {
 		helpMenu.add(menuHelpItem3);
 		
 	}
+	//The function provides a close operation for the window
+	private void handleClosing() {
+		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+	    if(n == JOptionPane.YES_OPTION) {
+	    	//Añadir guardado de datos
+		    this.dispose();
+		}       
+	}     
 }
 
 

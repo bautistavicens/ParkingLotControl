@@ -27,6 +27,7 @@ public class ParkingLotUploadFrame extends JFrame {
 		this.setSize(400, 400);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
+		this.setIconImage(new ImageIcon(getClass().getResource("/parkinglotcontrol/images/logo/program_icon.png")).getImage());
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,6 +65,13 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnAceptar.setBorderPainted(false);
 		btnAceptar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnAceptar.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnAceptar.addActionListener((ActionEvent e)-> {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		     if(n == JOptionPane.YES_OPTION) {
+		    	//Crear carga de datos a ParkingLotControl.ParkingLotsList
+		    	 this.dispose();
+		     }
+		});
 		contentPane.add(btnAceptar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -75,7 +83,7 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		btnCancelar.addActionListener((ActionEvent e)-> {
-		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.YES_NO_OPTION);
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 		     if(n == JOptionPane.YES_OPTION) {
 		    	this.dispose();
 		     }
