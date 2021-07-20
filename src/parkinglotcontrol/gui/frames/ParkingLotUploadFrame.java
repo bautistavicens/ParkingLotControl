@@ -1,29 +1,28 @@
 package parkinglotcontrol.gui.frames;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JSpinner;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.JComboBox;
+import java.awt.event.ActionEvent;
+
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class ParkingLotUploadFrame extends JFrame {
 
+	private static final long serialVersionUID = -4928689092388813531L;
 	private JPanel contentPane;
 	private String[] floors = {"PB", "1", "2", "3", "4", "5", "6", "7", "8"};
 	public ParkingLotUploadFrame() {
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setSize(400, 400);
 		this.setVisible(true);
@@ -74,6 +73,14 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		btnCancelar.addActionListener((ActionEvent e)-> {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.YES_NO_OPTION);
+		     if(n == JOptionPane.YES_OPTION) {
+		    	this.dispose();
+		     }
+		});
+		
 		contentPane.add(btnCancelar);
 
 	}
