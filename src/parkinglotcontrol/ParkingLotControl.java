@@ -14,6 +14,8 @@ public class ParkingLotControl {
 	private ParkingLotControl(){
 		carsList = new ArrayList<Car>();
 		parkingLotsList = new ArrayList<ParkingLot>();
+		parkingLotsList.add(new ParkingLot("PB", 1));
+		carsList.add(new Car(1, "Daniel Vicens" ,"ACX289", parkingLotsList.get(0)));
 	}
 
 	
