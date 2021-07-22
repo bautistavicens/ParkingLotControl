@@ -12,19 +12,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import parkinglotcontrol.ParkingLotControl;
+import parkinglotcontrol.interfaces.GuiUploadMethod;
 import parkinglotcontrol.models.ParkingLot;
 
-import javax.swing.SpinnerNumberModel;
-
-public class ParkingLotUploadFrame extends JFrame {
+public class ParkingLotUploadFrame extends JFrame implements GuiUploadMethod {
 
 	private static final long serialVersionUID = -4928689092388813531L;
 	private JPanel contentPane;
 	private String[] floors = {"PB", "1", "2", "3", "4", "5", "6", "7", "8"};
+	private JComboBox<String> comboBoxFloor;
+	JSpinner spinner;
 	public ParkingLotUploadFrame() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -49,7 +51,7 @@ public class ParkingLotUploadFrame extends JFrame {
 		lblNewLabel_1.setBounds(28, 10, 345, 66);
 		contentPane.add(lblNewLabel_1);
 		
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(1, 1, 50, 1));
 		spinner.setBounds(111, 118, 53, 38);
 		contentPane.add(spinner);
@@ -59,11 +61,16 @@ public class ParkingLotUploadFrame extends JFrame {
 		lblNewLabel_2.setBounds(28, 198, 45, 19);
 		contentPane.add(lblNewLabel_2);
 		
-		JComboBox<String> comboBoxFloor = new JComboBox<String>();
+		comboBoxFloor = new JComboBox<String>();
 		comboBoxFloor.setModel(new DefaultComboBoxModel<String>(floors));
 		comboBoxFloor.setBounds(111, 192, 53, 38);
 		contentPane.add(comboBoxFloor);
 		
+		this.initButtons();
+		
+	}
+
+	public void initButtons() {
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/green_check_icon.png")));
 		btnAceptar.setBounds(94, 287, 85, 57);
@@ -72,16 +79,11 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnAceptar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnAceptar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnAceptar.addActionListener((ActionEvent e)-> {
-		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		     if(n == JOptionPane.YES_OPTION) {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		     if(n == JOptionPane.OK_OPTION) {
 		    	
-		    	String selectedFloor = comboBoxFloor.getSelectedItem().toString();
-		    	int selectedParkingLots  = Integer.parseInt(spinner.getValue().toString());
-		    	int lastOnList = ParkingLotControl.getParkingLotControl().getParkingLotsList().size() + 1;
-		    	
-		    	for(int i=0; i < selectedParkingLots; i++) {
-		    		ParkingLotControl.getParkingLotControl().addParkingLot(new ParkingLot(selectedFloor, (i+lastOnList)));
-		    	}
+		    	this.upload();
+		    	 
 		    	this.dispose();
 		     }
 		});
@@ -96,8 +98,8 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		btnCancelar.addActionListener((ActionEvent e)-> {
-		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-		     if(n == JOptionPane.YES_OPTION) {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		     if(n == JOptionPane.OK_OPTION) {
 		    	this.dispose();
 		     }
 		});
@@ -105,4 +107,25 @@ public class ParkingLotUploadFrame extends JFrame {
 		contentPane.add(btnCancelar);
 
 	}
+	
+	public void upload() {
+    	
+		String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+    	int selectedParkingLots  = Integer.parseInt(spinner.getValue().toString());
+    	int lastOnList = ParkingLotControl.getParkingLotControl().getParkingLotsList().size() + 1;
+    	
+    	for(int i=0; i < selectedParkingLots; i++) {
+    		ParkingLotControl.getParkingLotControl().addParkingLot(new ParkingLot(selectedFloor, (i+lastOnList)));
+    	}
+		
+		MainFrame.getMainFrame().getContentPane().removeAll();
+		MainFrame.getMainFrame().initWestPanel();
+		MainFrame.getMainFrame().initNorthPanel();
+		MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+		MainFrame.getMainFrame().getContentPane().revalidate();
+		MainFrame.getMainFrame().getContentPane().repaint();
+		
+	}
+	
+	
 }

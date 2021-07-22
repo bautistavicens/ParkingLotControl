@@ -160,10 +160,11 @@ public class MainFrame extends JFrame {
 		helpMenu.add(menuHelpItem3);
 		
 	}
+	
 	//The function provides a close operation for the window
 	private void handleClosing() {
-		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-	    if(n == JOptionPane.YES_OPTION) {
+		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+	    if(n == JOptionPane.OK_OPTION) {
 	    	//Añadir guardado de datos
 		    this.dispose();
 		}       

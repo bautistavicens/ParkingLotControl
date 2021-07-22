@@ -2,11 +2,11 @@ package parkinglotcontrol;
 
 import java.util.ArrayList;
 
-import parkinglotcontrol.interfaces.UploadMethods;
+import parkinglotcontrol.interfaces.MainUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
 
-public class ParkingLotControl implements UploadMethods{
+public class ParkingLotControl implements MainUploadMethods {
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
 	private static ParkingLotControl parkingLotControl;
