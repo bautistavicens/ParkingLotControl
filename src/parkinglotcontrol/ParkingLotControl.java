@@ -2,10 +2,11 @@ package parkinglotcontrol;
 
 import java.util.ArrayList;
 
+import parkinglotcontrol.interfaces.UploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
 
-public class ParkingLotControl {
+public class ParkingLotControl implements UploadMethods{
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
 	private static ParkingLotControl parkingLotControl;
@@ -14,8 +15,6 @@ public class ParkingLotControl {
 	private ParkingLotControl(){
 		carsList = new ArrayList<Car>();
 		parkingLotsList = new ArrayList<ParkingLot>();
-		parkingLotsList.add(new ParkingLot("PB", 1));
-		carsList.add(new Car(1, "Daniel Vicens" ,"ACX289", parkingLotsList.get(0)));
 	}
 
 	
@@ -56,7 +55,7 @@ public class ParkingLotControl {
 	}
 	
 	//Use this to add a parking to the list
-	public void addParking(ParkingLot parking) {
+	public void addParkingLot(ParkingLot parking) {
 		this.parkingLotsList.add(parking);
 	}
 		 

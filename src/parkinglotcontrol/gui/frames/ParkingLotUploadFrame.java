@@ -15,6 +15,11 @@ import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import parkinglotcontrol.ParkingLotControl;
+import parkinglotcontrol.models.ParkingLot;
+
+import javax.swing.SpinnerNumberModel;
+
 public class ParkingLotUploadFrame extends JFrame {
 
 	private static final long serialVersionUID = -4928689092388813531L;
@@ -45,6 +50,7 @@ public class ParkingLotUploadFrame extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(1, 1, 50, 1));
 		spinner.setBounds(111, 118, 53, 38);
 		contentPane.add(spinner);
 		
@@ -53,10 +59,10 @@ public class ParkingLotUploadFrame extends JFrame {
 		lblNewLabel_2.setBounds(28, 198, 45, 19);
 		contentPane.add(lblNewLabel_2);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(floors));
-		comboBox.setBounds(111, 192, 53, 38);
-		contentPane.add(comboBox);
+		JComboBox<String> comboBoxFloor = new JComboBox<String>();
+		comboBoxFloor.setModel(new DefaultComboBoxModel<String>(floors));
+		comboBoxFloor.setBounds(111, 192, 53, 38);
+		contentPane.add(comboBoxFloor);
 		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/green_check_icon.png")));
@@ -68,8 +74,15 @@ public class ParkingLotUploadFrame extends JFrame {
 		btnAceptar.addActionListener((ActionEvent e)-> {
 		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		     if(n == JOptionPane.YES_OPTION) {
-		    	//Crear carga de datos a ParkingLotControl.ParkingLotsList
-		    	 this.dispose();
+		    	
+		    	String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+		    	int selectedParkingLots  = Integer.parseInt(spinner.getValue().toString());
+		    	int lastOnList = ParkingLotControl.getParkingLotControl().getParkingLotsList().size() + 1;
+		    	
+		    	for(int i=0; i < selectedParkingLots; i++) {
+		    		ParkingLotControl.getParkingLotControl().addParkingLot(new ParkingLot(selectedFloor, (i+lastOnList)));
+		    	}
+		    	this.dispose();
 		     }
 		});
 		contentPane.add(btnAceptar);
