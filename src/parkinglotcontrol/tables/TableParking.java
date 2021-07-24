@@ -19,12 +19,14 @@ public class TableParking extends AbstractTableModel{
 	
 	public TableParking(ArrayList<ParkingLot> parkingLotsList) {
 		this.parkingLotsList = parkingLotsList;
-		
+
 		//Organice Parkings by ID.
 		Collections.sort(this.parkingLotsList, new ParkingLotNumberComparator());
+		
 		//Organice Parkings by floor
 		Collections.sort(this.parkingLotsList, new ParkingLotFloorComparator());
-		}
+		
+	}
     
 	public int getRowCount() {
 		// El tamaño de las filas será el largo de la lista.

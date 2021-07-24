@@ -48,11 +48,13 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		initMenuBar();
+		
 		this.addWindowListener(new WindowAdapter() {
 		    public void windowClosing(WindowEvent e) {
 		        handleClosing();
 		    }
 		});
+		
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -115,8 +117,14 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void initCenterPanel(int selectedTable) {
-		TablesPanel tablesPanel = new TablesPanel(selectedTable);
-		contentPane.add(tablesPanel, BorderLayout.CENTER);
+		try {
+			TablesPanel tablesPanel = new TablesPanel(selectedTable);
+			contentPane.add(tablesPanel, BorderLayout.CENTER);
+		}catch(NullPointerException e) {
+			JOptionPane.showMessageDialog(null, e, "Error!", JOptionPane.ERROR_MESSAGE);
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "No se ha podido inicializar la tabla", "Error!", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 	

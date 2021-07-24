@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.MainFrame;
 import parkinglotcontrol.tables.TableCar;
