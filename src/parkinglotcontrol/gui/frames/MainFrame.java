@@ -146,10 +146,14 @@ public class MainFrame extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 		
+		JMenuItem menuAddCarItem0 = new JMenuItem("Añadir Auto");
 		JMenuItem menuAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
 		JMenuItem menuSaveItem2 = new JMenuItem("Guardar");
 		JMenuItem menuHelpItem3 = new JMenuItem("?");
-
+		
+		menuAddCarItem0.addActionListener((ActionEvent e) -> {
+			new CarUploadFrame();
+		});
 		menuAddParkingItem1.addActionListener((ActionEvent e) -> {
 			new ParkingLotUploadFrame();
 		});
@@ -159,10 +163,12 @@ public class MainFrame extends JFrame {
 			
 		});
 		
+		menuAddCarItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
 		menuAddParkingItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
 		menuSaveItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK));
 		menuHelpItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 		
+		fileMenu.add(menuAddCarItem0);
 		fileMenu.add(menuAddParkingItem1);
 		fileMenu.add(menuSaveItem2);
 		helpMenu.add(menuHelpItem3);

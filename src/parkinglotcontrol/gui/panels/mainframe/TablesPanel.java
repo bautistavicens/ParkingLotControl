@@ -1,7 +1,7 @@
 package parkinglotcontrol.gui.panels.mainframe;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,7 +18,6 @@ import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.MainFrame;
 import parkinglotcontrol.tables.TableCar;
 import parkinglotcontrol.tables.TableParking;
-import java.awt.Font;
 
 public class TablesPanel extends JPanel {
 
@@ -86,7 +85,8 @@ public class TablesPanel extends JPanel {
 		
  		}
  	}
- 	public void initButtons(int selectedTable) {
+ 	public void initButtons(int selectedTable) { 	
+		
  		JButton btnEliminar = new JButton("Eliminar");
  		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnEliminar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -208,11 +208,8 @@ public class TablesPanel extends JPanel {
 					
 			}
 		});
-		btnEliminarTodo.addActionListener((ActionEvent e) -> {
-			
-	    });
- 	btnsPanel.add(btnEliminarTodo);
  	
+		btnsPanel.add(btnEliminarTodo);
  	}
 }
  	
