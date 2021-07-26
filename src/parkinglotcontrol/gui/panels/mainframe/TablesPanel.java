@@ -94,6 +94,8 @@ public class TablesPanel extends JPanel {
 		btnEliminar.setBorderPainted(false);
 		btnEliminar.setContentAreaFilled(false);
 		btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+		
+		//btnEliminar button MouseListener.
  		btnEliminar.addMouseListener(new MouseListener() {
 			
 			public void mouseExited(MouseEvent e) {
@@ -134,12 +136,12 @@ public class TablesPanel extends JPanel {
 			}
 
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
+				//pass
 				
 			}
 				
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
+				//pass
 					
 			}
 		});
@@ -147,35 +149,67 @@ public class TablesPanel extends JPanel {
 		btnsPanel.add(btnEliminar);
 		
 		JButton btnEliminarTodo = new JButton("Eliminar Todo");
-		btnEliminarTodo.addActionListener((ActionEvent e) -> {
-			if(selectedTable == 0) {
-				int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los estacionamietos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+ 		btnEliminarTodo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnEliminarTodo.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnEliminarTodo.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnEliminarTodo.setBorderPainted(false);
+		btnEliminarTodo.setContentAreaFilled(false);
+		btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
+		
+		//btnEliminarTodo button MouseListener.
+		btnEliminarTodo.addMouseListener(new MouseListener() {
+				
+			public void mouseExited(MouseEvent e) {
+				btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
+			}
+				
+			public void mouseEntered(MouseEvent e) {
+				btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_big.png")));		
+			}
 			
-				if(n == JOptionPane.YES_OPTION) {
-					ParkingLotControl.getParkingLotControl().getParkingLotsList().clear();
+			public void mouseClicked(MouseEvent e) {
+				if(selectedTable == 0) {
+					int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los estacionamietos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				
-					MainFrame.getMainFrame().getContentPane().removeAll();
-					MainFrame.getMainFrame().initWestPanel();
-					MainFrame.getMainFrame().initNorthPanel();
-					MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-					MainFrame.getMainFrame().getContentPane().revalidate();
-					MainFrame.getMainFrame().getContentPane().repaint();
+					if(n == JOptionPane.YES_OPTION) {
+						ParkingLotControl.getParkingLotControl().getParkingLotsList().clear();
+					
+						MainFrame.getMainFrame().getContentPane().removeAll();
+						MainFrame.getMainFrame().initWestPanel();
+						MainFrame.getMainFrame().initNorthPanel();
+						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+						MainFrame.getMainFrame().getContentPane().revalidate();
+						MainFrame.getMainFrame().getContentPane().repaint();
+					}
 				}
+				else {
+					int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los autos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					
+					if(n == JOptionPane.YES_OPTION) {
+						ParkingLotControl.getParkingLotControl().getCarsList().clear();
+					
+						MainFrame.getMainFrame().getContentPane().removeAll();
+						MainFrame.getMainFrame().initWestPanel();
+						MainFrame.getMainFrame().initNorthPanel();
+						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+						MainFrame.getMainFrame().getContentPane().revalidate();
+						MainFrame.getMainFrame().getContentPane().repaint();
+					}
+				}		
 			}
-			else {
-				int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los autos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+			public void mousePressed(MouseEvent e) {
+				//pass
 				
-				if(n == JOptionPane.YES_OPTION) {
-					ParkingLotControl.getParkingLotControl().getCarsList().clear();
-				
-					MainFrame.getMainFrame().getContentPane().removeAll();
-					MainFrame.getMainFrame().initWestPanel();
-					MainFrame.getMainFrame().initNorthPanel();
-					MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-					MainFrame.getMainFrame().getContentPane().revalidate();
-					MainFrame.getMainFrame().getContentPane().repaint();
-				}
 			}
+				
+			public void mouseReleased(MouseEvent e) {
+				//pass
+					
+			}
+		});
+		btnEliminarTodo.addActionListener((ActionEvent e) -> {
+			
 	    });
  	btnsPanel.add(btnEliminarTodo);
  	
