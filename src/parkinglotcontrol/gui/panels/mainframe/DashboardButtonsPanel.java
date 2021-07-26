@@ -162,7 +162,7 @@ public class DashboardButtonsPanel extends JPanel {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				System.exit(MainFrame.getMainFrame().getDefaultCloseOperation());
+				MainFrame.getMainFrame().handleClosing();
 				
 			}
 

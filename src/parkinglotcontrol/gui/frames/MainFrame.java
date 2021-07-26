@@ -169,12 +169,12 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-	//The function provides a close operation for the window
-	private void handleClosing() {
+	//Use this to manage program shut down.
+	public void handleClosing() {
 		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(n == JOptionPane.OK_OPTION) {
 	    	//Añadir guardado de datos
-		    this.dispose();
+		    System.exit(getDefaultCloseOperation());
 		}       
 	}     
 }
