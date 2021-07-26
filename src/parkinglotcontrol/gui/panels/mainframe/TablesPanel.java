@@ -3,17 +3,22 @@ package parkinglotcontrol.gui.panels.mainframe;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.MainFrame;
 import parkinglotcontrol.tables.TableCar;
 import parkinglotcontrol.tables.TableParking;
+import java.awt.Font;
 
 public class TablesPanel extends JPanel {
 
@@ -83,35 +88,62 @@ public class TablesPanel extends JPanel {
  	}
  	public void initButtons(int selectedTable) {
  		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addActionListener((ActionEvent e) ->{	
-			if(this.selectedRow >= 0) {
-				if(selectedTable == 0) {
-					//The program gets the row that user selected and deletes it from the main list.
-					ParkingLotControl.getParkingLotControl().getParkingLotsList().remove(selectedRow);
-		    		
-					MainFrame.getMainFrame().getContentPane().removeAll();
-					MainFrame.getMainFrame().initWestPanel();
-					MainFrame.getMainFrame().initNorthPanel();
-					MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-					MainFrame.getMainFrame().getContentPane().revalidate();
-					MainFrame.getMainFrame().getContentPane().repaint();
+ 		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnEliminar.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnEliminar.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnEliminar.setBorderPainted(false);
+		btnEliminar.setContentAreaFilled(false);
+		btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+ 		btnEliminar.addMouseListener(new MouseListener() {
+			
+			public void mouseExited(MouseEvent e) {
+				btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+			}
+				
+			public void mouseEntered(MouseEvent e) {
+				btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_big.png")));		
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				if(selectedRow >= 0) {
+					if(selectedTable == 0) {
+						//The program gets the row that user selected and deletes it from the main list.
+						ParkingLotControl.getParkingLotControl().getParkingLotsList().remove(selectedRow);
+			    		
+						MainFrame.getMainFrame().getContentPane().removeAll();
+						MainFrame.getMainFrame().initWestPanel();
+						MainFrame.getMainFrame().initNorthPanel();
+						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+						MainFrame.getMainFrame().getContentPane().revalidate();
+						MainFrame.getMainFrame().getContentPane().repaint();
+					}
+					else {
+						ParkingLotControl.getParkingLotControl().getCarsList().remove(selectedRow);
+			    		
+						MainFrame.getMainFrame().getContentPane().removeAll();
+						MainFrame.getMainFrame().initWestPanel();
+						MainFrame.getMainFrame().initNorthPanel();
+						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+						MainFrame.getMainFrame().getContentPane().revalidate();
+						MainFrame.getMainFrame().getContentPane().repaint();
+					}
 				}
 				else {
-					ParkingLotControl.getParkingLotControl().getCarsList().remove(selectedRow);
-		    		
-					MainFrame.getMainFrame().getContentPane().removeAll();
-					MainFrame.getMainFrame().initWestPanel();
-					MainFrame.getMainFrame().initNorthPanel();
-					MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-					MainFrame.getMainFrame().getContentPane().revalidate();
-					MainFrame.getMainFrame().getContentPane().repaint();
-				}
+					JOptionPane.showMessageDialog(null, "Seleccione una fila!", "Parking Lot Control", JOptionPane.INFORMATION_MESSAGE);
+				}		
 			}
-			else {
-				JOptionPane.showMessageDialog(null, "Seleccione una fila!", "Parking Lot Control", JOptionPane.INFORMATION_MESSAGE);
+
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+				
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+					
 			}
 		});
-	
+ 		
 		btnsPanel.add(btnEliminar);
 		
 		JButton btnEliminarTodo = new JButton("Eliminar Todo");
