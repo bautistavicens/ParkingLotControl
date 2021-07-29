@@ -1,7 +1,6 @@
 package parkinglotcontrol.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

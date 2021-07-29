@@ -23,6 +23,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.panels.mainframe.DashboardButtonsPanel;
 import parkinglotcontrol.gui.panels.mainframe.TablesPanel;
 
@@ -37,6 +38,9 @@ public class MainFrame extends JFrame {
 	
 	//Don´t use this builder, use ".getMainFrame()"
 	private MainFrame(){	
+        
+		ParkingLotControl.getParkingLotControl().getMainDirectory().readFiles();	//Lee los archivos(si existen), sino crea una
+																					//los archivos y/o el directorio.
 		setTitle("Parking Lot Control");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
@@ -47,6 +51,7 @@ public class MainFrame extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
 		initMenuBar();
 		
 		this.addWindowListener(new WindowAdapter() {
@@ -60,6 +65,7 @@ public class MainFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
+		
 		//First table to show
 		this.showTable = 0;
 		
@@ -70,6 +76,7 @@ public class MainFrame extends JFrame {
 		initCenterPanel(showTable);
 		getContentPane().revalidate();
 		getContentPane().repaint();
+		
 		
 	}
 	
@@ -179,7 +186,9 @@ public class MainFrame extends JFrame {
 	public void handleClosing() {
 		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 	    if(n == JOptionPane.OK_OPTION) {
-	    	//Añadir guardado de datos
+
+	    	ParkingLotControl.getParkingLotControl().getMainDirectory().writeFiles();
+	    	
 		    System.exit(getDefaultCloseOperation());
 		}       
 	}     

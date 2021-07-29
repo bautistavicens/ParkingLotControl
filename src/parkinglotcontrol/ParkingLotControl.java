@@ -2,6 +2,7 @@ package parkinglotcontrol;
 
 import java.util.ArrayList;
 
+import parkinglotcontrol.files.MainDirectory;
 import parkinglotcontrol.interfaces.MainUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
@@ -9,12 +10,14 @@ import parkinglotcontrol.models.ParkingLot;
 public class ParkingLotControl implements MainUploadMethods {
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
+	private MainDirectory mainDirectory;
 	private static ParkingLotControl parkingLotControl;
 	
 	//Don´t use this builder, use ".getParkingLotControl()"
 	private ParkingLotControl(){
 		carsList = new ArrayList<Car>();
 		parkingLotsList = new ArrayList<ParkingLot>();
+		this.setMainDirectory(new MainDirectory());
 	}
 
 	
@@ -29,6 +32,16 @@ public class ParkingLotControl implements MainUploadMethods {
 	}
 	
 	
+	public MainDirectory getMainDirectory() {
+		return mainDirectory;
+	}
+
+
+	public void setMainDirectory(MainDirectory mainDirectory) {
+		this.mainDirectory = mainDirectory;
+	}
+
+
 	public ArrayList<Car> getCarsList() {
 		return carsList;
 	}

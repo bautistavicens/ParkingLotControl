@@ -1,9 +1,12 @@
 package parkinglotcontrol.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class OccupancyTime {
+public class OccupancyTime implements Serializable {
+	
+	private static final long serialVersionUID = 1198303662082529458L;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LocalTime startTime;

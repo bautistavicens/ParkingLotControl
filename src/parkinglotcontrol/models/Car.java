@@ -1,6 +1,10 @@
 package parkinglotcontrol.models;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
+
+	private static final long serialVersionUID = -6419309617838467207L;
 	private int idCar;
 	private String Brand;
 	private String licencePlate;

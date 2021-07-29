@@ -1,6 +1,10 @@
 package parkinglotcontrol.models;
 
-public class ParkingLot {
+import java.io.Serializable;
+
+public class ParkingLot implements Serializable{
+	
+	private static final long serialVersionUID = -3992151109913311909L;
 	private int idParking;
 	private String floor;
 	private int parkingNumber;
