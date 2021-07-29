@@ -18,7 +18,7 @@ public class MainDirectory {
 		File mainDirectory = new File(PATH);
 		try {
 			if(mainDirectory.exists()) {
-				parkingLotsFile.readFile();
+				parkingLotsFile.writeFile();
 			}
 			else {
 				if(mainDirectory.mkdir()) {

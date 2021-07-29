@@ -16,8 +16,7 @@ public class ParkingLot implements Serializable{
 		this.floor = floor;
 		this.parkingNumber = parkingNumber;
 		this.occupancy = false;
-		this.occupancyTime = new OccupancyTime(
-				);
+		this.occupancyTime = new OccupancyTime();
 	}
 	
 	//Use this for unknown staying time creation.

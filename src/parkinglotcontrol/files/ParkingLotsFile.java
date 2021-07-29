@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.models.ParkingLot;
 
-public class ParkingLotsFile implements Serializable{
+public class ParkingLotsFile implements Serializable {
 
 	private static final long serialVersionUID = 8619650411126603775L;
 
