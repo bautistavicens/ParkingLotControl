@@ -14,7 +14,7 @@ public enum CarBrands {
 	MERCEDES_BENZ("Mercedes Benz"),
 	AUDI("Audi"),
 	FERRARI("Ferrari"),
-	LAMBORGHINI("lamborghini"),
+	LAMBORGHINI("Lamborghini"),
 	CHERRY("Cherry"),
 	ROLLS_ROYCE("Rolls royce"),
 	HONDA("Honda"),
@@ -23,16 +23,16 @@ public enum CarBrands {
 	KIA("Kia"),
 	HYUNDAI("Hyundai"),
 	PEUGEOT("Peugeot"),
-	LINCOLN("Lindoln"),
+	LINCOLN("Lindcoln"),
 	JEEP("Jeep"),
 	LANDROVER("Landrover"),
 	CITROEN("Citroën"),
 	DS("Ds");
 	
 	
-	public String brand;
+	public String brandTitle;
 	
-	CarBrands(String brand){
-		this.brand = brand;
+	CarBrands(String brandTitle){
+		this.brandTitle = brandTitle;
 	}
 }
