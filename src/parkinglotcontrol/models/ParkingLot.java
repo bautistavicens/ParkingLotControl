@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class ParkingLot implements Serializable{
 	
 	private static final long serialVersionUID = -3992151109913311909L;
-	private int idParking;
 	private String floor;
 	private int parkingNumber;
 	private boolean occupancy;
@@ -33,16 +32,6 @@ public class ParkingLot implements Serializable{
 		this.parkingNumber = parkingNumber;
 		this.occupancy = occupancy;
 		this.occupancyTime = occupancyTime;
-	}
-	
-
-	
-	public int getIdParking() {
-		return idParking;
-	}
-
-	public void setIdParking(int idParking) {
-		this.idParking = idParking;
 	}
 
 	public String getFloor() {

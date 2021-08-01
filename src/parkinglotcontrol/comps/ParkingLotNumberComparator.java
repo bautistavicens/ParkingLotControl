@@ -7,7 +7,7 @@ import parkinglotcontrol.models.ParkingLot;
 public class ParkingLotNumberComparator implements Comparator<ParkingLot>{
 
 	public int compare(ParkingLot o1, ParkingLot o2) {
-		if(o1.getIdParking() > o2.getIdParking()) {
+		if(o1.getParkingNumber() > o2.getParkingNumber()) {
 			return 1;
 		}
 		
