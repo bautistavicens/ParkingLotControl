@@ -2,7 +2,7 @@ package parkinglotcontrol.enums;
 
 public enum CarBrands {
 	
-	
+	NOTREGISTERED("-"),
 	TOYOTA("Toyota"),
 	FORD("Ford"),
 	RENAULT("Renault"),

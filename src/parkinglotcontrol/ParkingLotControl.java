@@ -3,11 +3,11 @@ package parkinglotcontrol;
 import java.util.ArrayList;
 
 import parkinglotcontrol.files.MainDirectory;
-import parkinglotcontrol.interfaces.MainUploadMethods;
+import parkinglotcontrol.interfaces.PLCUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
 
-public class ParkingLotControl implements MainUploadMethods {
+public class ParkingLotControl implements PLCUploadMethods {
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
 	private MainDirectory mainDirectory;

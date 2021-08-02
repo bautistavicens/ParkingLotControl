@@ -10,7 +10,7 @@ import parkinglotcontrol.models.Car;
 public class TableCar extends AbstractTableModel{
 
 	private static final long serialVersionUID = -5442406979655196745L;
-	private String[] nombreCols = {"Id", "Patente", "Dueño", "Piso", "Estacionamiento", "Entrada", "Salida"};
+	private String[] nombreCols = {"Patente", "Dueño", "Piso", "Estacionamiento", "Entrada", "Salida"};
 	private List<Car> carsList;
 	
 	public TableCar(ArrayList<Car> carsList) {
@@ -37,18 +37,16 @@ public class TableCar extends AbstractTableModel{
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch(columnIndex) {
 			case 0:
-				return carsList.get(rowIndex).getIdCar();
-			case 1:
 				return carsList.get(rowIndex).getLicencePlate();
-			case 2:
+			case 1:
 				return carsList.get(rowIndex).getOwner();
-			case 3:
+			case 2:
 				return carsList.get(rowIndex).getParking().getFloor();
-			case 4:
+			case 3:
 				return carsList.get(rowIndex).getParking().getParkingNumber();
-			case 5:
+			case 4:
 				return carsList.get(rowIndex).getParking().getOccupancyTime().fromDayHour();
-			case 6:
+			case 5:
 				return carsList.get(rowIndex).getParking().getOccupancyTime().toDayHour();
 		}																				
 		return null;

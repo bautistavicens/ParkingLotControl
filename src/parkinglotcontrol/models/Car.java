@@ -5,36 +5,32 @@ import java.io.Serializable;
 public class Car implements Serializable {
 
 	private static final long serialVersionUID = -6419309617838467207L;
-	private int idCar;
-	private String Brand;
+	private String brand;
 	private String licencePlate;
 	private String owner;
 	private ParkingLot parking;
 	
 	
-	public Car(int idCar, String licencePlate, ParkingLot parking) {
-		this.idCar = idCar;
+	public Car(String licencePlate, ParkingLot parking) {
 		this.licencePlate = licencePlate;
 		this.parking = parking;
 	}
-	public Car(int idCar, String licencePlate, String owner, ParkingLot parking) {
-		this(idCar, licencePlate, parking);
+	public Car(String licencePlate, String owner, ParkingLot parking) {
+		this(licencePlate, parking);
 		this.owner = owner;
 	}
-	
-	public int getIdCar() {
-		return idCar;
-	}
-	public void setIdCar(int idCar) {
-		this.idCar = idCar;
+	public Car(String licencePlate, String owner, String brand, ParkingLot parking) {
+		this(licencePlate, owner, parking);
+		this.brand = brand;
+		
 	}
 	
 	public String getBrand() {
-		return Brand;
+		return brand;
 	}
 
 	public void setBrand(String brand) {
-		Brand = brand;
+		this.brand = brand;
 	}
 
 	public String getLicencePlate() {

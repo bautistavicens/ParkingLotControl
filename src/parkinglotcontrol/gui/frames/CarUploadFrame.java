@@ -1,32 +1,38 @@
 package parkinglotcontrol.gui.frames;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.enums.CarBrands;
+import parkinglotcontrol.interfaces.GuiUploadMethod;
+import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
 
-public class CarUploadFrame extends JFrame {
+public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 
 	private static final long serialVersionUID = -294565520020423779L;
 	private JPanel contentPane;
 	private String[] floors = {"PB", "1", "2", "3", "4", "5", "6", "7", "8"};
 	private DefaultComboBoxModel<String> carBrandsComboBoxModel;
-	private DefaultComboBoxModel<Integer> parkingLotsIdComboBoxModel;
+	private DefaultComboBoxModel<Integer> parkingLotsNumbersComboBoxModel;
 	private JComboBox<String> comboBoxBrands;
 	private JComboBox<String> comboBoxFloor;
-	private JComboBox<Integer> comboBoxParkingLotsId;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JComboBox<Integer> comboBoxParkingLotsNumbers;
+	private JTextField textFieldlLicencePlate;
+	private JTextField textFieldOwner;
 
 	public CarUploadFrame() {
 		
@@ -46,6 +52,7 @@ public class CarUploadFrame extends JFrame {
 		initJComboBoxes();
 		initLabels();
 		initTextFiles();
+		initButtons();
 		getParkingLotsNumbers();
 		
 		
@@ -86,22 +93,22 @@ public class CarUploadFrame extends JFrame {
 	
 	public void initTextFiles() {
 
-		textField = new JTextField();
-		textField.setBounds(87, 105, 153, 36);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldlLicencePlate = new JTextField();
+		textFieldlLicencePlate.setBounds(87, 105, 153, 36);
+		contentPane.add(textFieldlLicencePlate);
+		textFieldlLicencePlate.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(87, 146, 153, 36);
-		contentPane.add(textField_1);
+		textFieldOwner = new JTextField();
+		textFieldOwner.setColumns(10);
+		textFieldOwner.setBounds(87, 146, 153, 36);
+		contentPane.add(textFieldOwner);
 		
 	}
 	
 	public void initJComboBoxes() {
 		
 		carBrandsComboBoxModel = new DefaultComboBoxModel<String>();
-		parkingLotsIdComboBoxModel = new DefaultComboBoxModel<Integer>();
+		parkingLotsNumbersComboBoxModel = new DefaultComboBoxModel<Integer>();
 		
 		comboBoxBrands = new JComboBox<String>(carBrandsComboBoxModel);
 		comboBoxBrands.setBounds(87, 195, 153, 35);
@@ -109,8 +116,8 @@ public class CarUploadFrame extends JFrame {
 		comboBoxFloor = new JComboBox<String>(new DefaultComboBoxModel<String>(floors));
 		comboBoxFloor.setBounds(87, 238, 53, 38);
 		
-		comboBoxParkingLotsId = new JComboBox<Integer>(parkingLotsIdComboBoxModel);
-		comboBoxParkingLotsId.setBounds(87, 286, 53, 35);
+		comboBoxParkingLotsNumbers = new JComboBox<Integer>(parkingLotsNumbersComboBoxModel);
+		comboBoxParkingLotsNumbers.setBounds(87, 286, 53, 35);
 		
 		for(CarBrands cb : CarBrands.values()) {
 			carBrandsComboBoxModel.addElement(cb.brandTitle);
@@ -122,20 +129,79 @@ public class CarUploadFrame extends JFrame {
 		
 		contentPane.add(comboBoxBrands);
 		contentPane.add(comboBoxFloor);
-		contentPane.add(comboBoxParkingLotsId);
+		contentPane.add(comboBoxParkingLotsNumbers);
 		
 	}
 	
 	public void getParkingLotsNumbers() {
 		
-		parkingLotsIdComboBoxModel.removeAllElements();
+		parkingLotsNumbersComboBoxModel.removeAllElements();
 		
 		for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
 			
 			if(pl.getFloor().equals(comboBoxFloor.getSelectedItem())) {
 				
-				parkingLotsIdComboBoxModel.addElement(pl.getParkingNumber());
+				parkingLotsNumbersComboBoxModel.addElement(pl.getParkingNumber());
 			}
 		}
+	}
+	
+	public void initButtons() {
+		
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/green_check_icon.png")));
+		btnAceptar.setBounds(146, 374, 85, 57);
+		btnAceptar.setContentAreaFilled(false);
+		btnAceptar.setBorderPainted(false);
+		btnAceptar.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnAceptar.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnAceptar.addActionListener((ActionEvent e)-> {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		     if(n == JOptionPane.OK_OPTION) {
+		    	
+		    	this.upload();
+		    	 
+		    	this.dispose();
+		     }
+		});
+		contentPane.add(btnAceptar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/red_cancel_icon.png")));
+		btnCancelar.setBounds(259, 374, 85, 57);
+		btnCancelar.setContentAreaFilled(false);
+		btnCancelar.setBorderPainted(false);
+		btnCancelar.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		btnCancelar.addActionListener((ActionEvent e)-> {
+		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		     if(n == JOptionPane.OK_OPTION) {
+		    	this.dispose();
+		     }
+		});
+		
+		contentPane.add(btnCancelar);
+	}
+
+	public void upload() {
+		
+		String carLicencePlate = textFieldlLicencePlate.getText();
+		String carOwner = textFieldOwner.getText();
+		String selectedBrand = comboBoxBrands.getSelectedItem().toString();
+		String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+		int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
+		int plIndex = -1;
+		
+		//This changes the state of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
+		for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+			if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
+				pl.changeOccupancy(false);
+				plIndex = plIndex + 1;
+			}
+		}
+		
+		ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
+		
 	}
 }
