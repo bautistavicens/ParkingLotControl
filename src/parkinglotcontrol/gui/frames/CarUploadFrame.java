@@ -191,25 +191,34 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
 			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
 			int plIndex = -1;
-		
+			
 			//This changes the state of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
 			for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+				
 				if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
-					pl.changeOccupancy(true);
-					plIndex = plIndex + 1;
+					
+					if(pl.isOccupancy() == false) {
+					
+						pl.changeOccupancy(true);
+					
+						plIndex = plIndex + 1;
+						
+						ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
+						
+						MainFrame.getMainFrame().getContentPane().removeAll();
+						MainFrame.getMainFrame().initWestPanel();
+						MainFrame.getMainFrame().initNorthPanel();
+						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+						MainFrame.getMainFrame().getContentPane().revalidate();
+						MainFrame.getMainFrame().getContentPane().repaint();
+						
+				    	this.dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "El estacionamiento está ocupado!", "!", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			}
-		
-			ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
-			
-			MainFrame.getMainFrame().getContentPane().removeAll();
-			MainFrame.getMainFrame().initWestPanel();
-			MainFrame.getMainFrame().initNorthPanel();
-			MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-			MainFrame.getMainFrame().getContentPane().revalidate();
-			MainFrame.getMainFrame().getContentPane().repaint();
-			
-	    	this.dispose();
 	    	
 		}catch(NullPointerException e) {
 			JOptionPane.showMessageDialog(null,"No se han encontrado estacionamientos en el piso seleccionado", "Error!", JOptionPane.ERROR_MESSAGE);
