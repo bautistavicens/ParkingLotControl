@@ -160,8 +160,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		     if(n == JOptionPane.OK_OPTION) {
 		    	
 		    	this.upload();
-		    	 
-		    	this.dispose();
+		  	 
 		     }
 		});
 		contentPane.add(btnAceptar);
@@ -184,24 +183,36 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		contentPane.add(btnCancelar);
 	}
 
-	public void upload() {
+	public void upload() throws NullPointerException {
+		try {
+			String carLicencePlate = textFieldlLicencePlate.getText().toUpperCase();
+			String carOwner = textFieldOwner.getText().toUpperCase();
+			String selectedBrand = comboBoxBrands.getSelectedItem().toString();
+			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
+			int plIndex = -1;
 		
-		String carLicencePlate = textFieldlLicencePlate.getText();
-		String carOwner = textFieldOwner.getText();
-		String selectedBrand = comboBoxBrands.getSelectedItem().toString();
-		String selectedFloor = comboBoxFloor.getSelectedItem().toString();
-		int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
-		int plIndex = -1;
-		
-		//This changes the state of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
-		for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
-			if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
-				pl.changeOccupancy(false);
-				plIndex = plIndex + 1;
+			//This changes the state of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
+			for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+				if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
+					pl.changeOccupancy(true);
+					plIndex = plIndex + 1;
+				}
 			}
+		
+			ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
+			
+			MainFrame.getMainFrame().getContentPane().removeAll();
+			MainFrame.getMainFrame().initWestPanel();
+			MainFrame.getMainFrame().initNorthPanel();
+			MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+			MainFrame.getMainFrame().getContentPane().revalidate();
+			MainFrame.getMainFrame().getContentPane().repaint();
+			
+	    	this.dispose();
+	    	
+		}catch(NullPointerException e) {
+			JOptionPane.showMessageDialog(null,"No se han encontrado estacionamientos en el piso seleccionado", "Error!", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
-		
 	}
 }

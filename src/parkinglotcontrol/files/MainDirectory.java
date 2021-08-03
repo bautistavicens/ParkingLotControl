@@ -8,9 +8,11 @@ import javax.swing.JOptionPane;
 public class MainDirectory {
 	public static String PATH = System.getenv("APPDATA") + File.separator + "ParkingLotControl";
 	private ParkingLotsFile parkingLotsFile;
+	private CarsFile carsFile;
 	
 	public MainDirectory() {
 		this.parkingLotsFile = new ParkingLotsFile();
+		this.carsFile = new CarsFile();
 		
 	}
 
@@ -19,10 +21,13 @@ public class MainDirectory {
 		try {
 			if(mainDirectory.exists()) {
 				parkingLotsFile.writeFile();
+				carsFile.writeFile();
+				
 			}
 			else {
 				if(mainDirectory.mkdir()) {
 					parkingLotsFile.writeFile();
+					carsFile.writeFile();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "No se ha podido crear el directorio principal", "Error.", JOptionPane.ERROR_MESSAGE);
@@ -38,10 +43,12 @@ public class MainDirectory {
 		try {
 			if(mainDirectory.exists()) {
 				parkingLotsFile.readFile();
+				carsFile.readFile();
 			}
 			else {
 				if(mainDirectory.mkdir()) {
 					parkingLotsFile.writeFile();
+					carsFile.writeFile();
 				}
 			}
 		}catch(IndexOutOfBoundsException e2) {
