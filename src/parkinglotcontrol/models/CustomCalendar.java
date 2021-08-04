@@ -29,10 +29,10 @@ public class CustomCalendar extends JFrame {
 
 	public CustomCalendar()
 	{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);	    
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);	    
 		
 		setSize(235, 200);
-		setTitle("MindFusion.Scheduling Sample: Minimal Application");
+		setTitle("Parking Lot Control");
 		
 		changeSupport = new PropertyChangeSupport(this);
 

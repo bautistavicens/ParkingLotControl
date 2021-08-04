@@ -2,6 +2,7 @@ package parkinglotcontrol.gui.frames;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.util.Calendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -20,6 +21,7 @@ import parkinglotcontrol.enums.CarBrands;
 import parkinglotcontrol.interfaces.GuiUploadMethod;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
+import javax.swing.JTextPane;
 
 public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 
@@ -33,6 +35,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	private JComboBox<Integer> comboBoxParkingLotsNumbers;
 	private JTextField textFieldlLicencePlate;
 	private JTextField textFieldOwner;
+	private CustomCalendarFrame calendar;
 
 	public CarUploadFrame() {
 		
@@ -54,6 +57,12 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		initTextFiles();
 		initButtons();
 		getParkingLotsNumbers();
+		
+		try {
+			calendar = new CustomCalendarFrame();
+		}catch (Exception exp) {
+			JOptionPane.showMessageDialog(null, "No se ha podido inicializar el calendario.", "!", JOptionPane.WARNING_MESSAGE);
+		}
 		
 		
 	}
@@ -88,6 +97,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblId.setBounds(10, 282, 67, 35);
 		contentPane.add(lblId);
+		
 			
 	}
 	
@@ -174,14 +184,55 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		btnCancelar.addActionListener((ActionEvent e)-> {
-		     int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		     if(n == JOptionPane.OK_OPTION) {
+			int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		    if(n == JOptionPane.OK_OPTION) {
+		    	 
+		    	calendar.dispose();
 		    	this.dispose();
-		     }
+		    }
 		});
 		
 		contentPane.add(btnCancelar);
+		
+		JButton btnCalendarIn = new JButton("Desde");
+		btnCalendarIn.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		
+		btnCalendarIn.setBounds(259, 102, 65, 50);
+		btnCalendarIn.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/calendar_icon_small.png")));
+		btnCalendarIn.setContentAreaFilled(false);
+		btnCalendarIn.setBorderPainted(false);
+		btnCalendarIn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCalendarIn.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		contentPane.add(btnCalendarIn);
+		
+		btnCalendarIn.addActionListener(ActionEvent -> {
+			
+			calendar.setTitle("Entrada");
+			calendar.setVisible(true);
+		});
+		
+		JButton btnCalendarOut = new JButton("Hasta");
+		btnCalendarOut.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		
+		btnCalendarOut.setBounds(259, 158, 65, 50);
+		btnCalendarOut.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/calendar_icon_small.png")));
+		btnCalendarOut.setContentAreaFilled(false);
+		btnCalendarOut.setBorderPainted(false);
+		btnCalendarOut.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCalendarOut.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		contentPane.add(btnCalendarOut);
+		
+		JTextPane textPaneIn = new JTextPane();
+		textPaneIn.setBounds(328, 106, 97, 35);
+		contentPane.add(textPaneIn);
+		
+		JTextPane textPaneOut = new JTextPane();
+		textPaneOut.setBounds(328, 162, 97, 35);
+		contentPane.add(textPaneOut);
 	}
+	
 
 	public void upload() throws NullPointerException {
 		try {
@@ -192,11 +243,11 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
 			int plIndex = -1;
 			
-			//This changes the state of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
+			//This changes the "Occupancy" of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
 			for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
-				
+				//This gets the ParkingLot
 				if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
-					
+					//This check if the ParkingLot is free or not.
 					if(pl.isOccupancy() == false) {
 					
 						pl.changeOccupancy(true);

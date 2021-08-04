@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
@@ -22,24 +24,18 @@ import parkinglotcontrol.models.CustomCalendar;
 public class CustomCalendarFrame extends JFrame implements PropertyChangeListener {
 
 	private static final long serialVersionUID = 1L;
+	private CustomCalendar calendarWindow;
 	//the TextField for typing the date
-	JFormattedTextField  textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+	private JFormattedTextField  textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
 	
 		
 		public CustomCalendarFrame()
 		{
-			///Llevar esto al MainFrame
-			/*  CustomCalendarFrame window = null;
-			try {
-				window = new CustomCalendarFrame();
-				window.setVisible(true);
-			}
-			catch (Exception exp) {
-				exp.printStackTrace();
-			}*/
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			setSize(368, 362);
-			setTitle("MindFusion.Scheduling Sample: Minimal Application");
+			setTitle("Parking Lot Control");
+			setLocationRelativeTo(null);
 			
 			Container cp = getContentPane();
 			FlowLayout flowLayout = new FlowLayout();
@@ -51,13 +47,13 @@ public class CustomCalendarFrame extends JFrame implements PropertyChangeListene
 			textField.setPreferredSize(new Dimension(130, 30));
 			    
 			// display the window with the calendar
-			CustomCalendar calendarWindow = new CustomCalendar(); 
+			calendarWindow = new CustomCalendar(); 
 			    
 			//wire a listener for the PropertyChange event of the calendar window
 			calendarWindow.addPropertyChangeListener(this);
 			
 			
-			JButton calendarButton = new JButton("Pick a Date");
+			JButton calendarButton = new JButton("Escoger fecha");
 					
 			calendarButton.addActionListener(new ActionListener()
 			{
@@ -69,7 +65,7 @@ public class CustomCalendarFrame extends JFrame implements PropertyChangeListene
 				Date d = (Date)textField.getValue();				
 					
 				calendarWindow.resetSelection(d);				
-				calendarWindow.setUndecorated(true);
+
 			    calendarWindow.setVisible(true);
 			  }
 			});
@@ -78,8 +74,13 @@ public class CustomCalendarFrame extends JFrame implements PropertyChangeListene
 			cp.add(textField);
 			cp.add(calendarButton);
 			cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-	        
-	        
+			
+			this.addWindowListener(new WindowAdapter() {
+			    public void windowClosing(WindowEvent e) {
+			        handleClosing();
+			    }
+			});
+	        pack();
 		}
 		
         @Override
@@ -94,5 +95,10 @@ public class CustomCalendarFrame extends JFrame implements PropertyChangeListene
 	        }
 			
 		}
+        
+        public void handleClosing() {
+        	calendarWindow.dispose();
+        	this.dispose();
+        }
 
 }
