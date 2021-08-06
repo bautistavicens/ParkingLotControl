@@ -64,8 +64,13 @@ public class ParkingLot implements Serializable{
 	public OccupancyTime getOccupancyTime() {
 		return occupancyTime;
 	}
-
-
+	
+	//Use this to set parking lot reservation time.
+	public void setReservationNoTime(String startDate, String endDate) {
+		this.occupancyTime.setStartDate(startDate);
+		this.occupancyTime.setEndDate(endDate);
+	}
+	
 	public void setOccupancyTime(OccupancyTime occupancyTime) {
 		this.occupancyTime = occupancyTime;
 	}

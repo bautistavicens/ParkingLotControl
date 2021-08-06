@@ -2,12 +2,14 @@ package parkinglotcontrol.gui.frames;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,7 +23,6 @@ import parkinglotcontrol.enums.CarBrands;
 import parkinglotcontrol.interfaces.GuiUploadMethod;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
-import javax.swing.JTextPane;
 
 public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 
@@ -35,7 +36,9 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	private JComboBox<Integer> comboBoxParkingLotsNumbers;
 	private JTextField textFieldlLicencePlate;
 	private JTextField textFieldOwner;
-	private CustomCalendarFrame calendar;
+	private JFormattedTextField textPaneIn;
+	private JFormattedTextField textPaneOut;
+	private String calendarType;
 
 	public CarUploadFrame() {
 		
@@ -54,19 +57,29 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		
 		initJComboBoxes();
 		initLabels();
-		initTextFiles();
+		initTextFields();
+		initTextPanes();
 		initButtons();
 		getParkingLotsNumbers();
 		
-		try {
-			calendar = new CustomCalendarFrame();
-		}catch (Exception exp) {
-			JOptionPane.showMessageDialog(null, "No se ha podido inicializar el calendario.", "!", JOptionPane.WARNING_MESSAGE);
-		}
-		
-		
 	}
-	
+
+	public JFormattedTextField getTextPaneIn() {
+		return textPaneIn;
+	}
+
+	public void setTextPaneIn(JFormattedTextField textPaneIn) {
+		this.textPaneIn = textPaneIn;
+	}
+
+	public JFormattedTextField getTextPaneOut() {
+		return textPaneOut;
+	}
+
+	public void setTextPaneOut(JFormattedTextField textPaneOut) {
+		this.textPaneOut = textPaneOut;
+	}
+
 	public void initLabels() {
 		JLabel lblTitle = new JLabel("Registro de auto");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 27));
@@ -101,7 +114,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			
 	}
 	
-	public void initTextFiles() {
+	public void initTextFields() {
 
 		textFieldlLicencePlate = new JTextField();
 		textFieldlLicencePlate.setBounds(87, 105, 153, 36);
@@ -113,6 +126,18 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		textFieldOwner.setBounds(87, 146, 153, 36);
 		contentPane.add(textFieldOwner);
 		
+	}
+	
+	public void initTextPanes() {
+		textPaneIn = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+		textPaneIn.setBounds(328, 106, 97, 35);
+		textPaneIn.setValue(new Date());
+		contentPane.add(textPaneIn);
+		
+		textPaneOut = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+		textPaneOut.setBounds(328, 162, 97, 35);
+		textPaneOut.setValue(new Date());
+		contentPane.add(textPaneOut);
 	}
 	
 	public void initJComboBoxes() {
@@ -141,19 +166,6 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		contentPane.add(comboBoxFloor);
 		contentPane.add(comboBoxParkingLotsNumbers);
 		
-	}
-	
-	public void getParkingLotsNumbers() {
-		
-		parkingLotsNumbersComboBoxModel.removeAllElements();
-		
-		for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
-			
-			if(pl.getFloor().equals(comboBoxFloor.getSelectedItem())) {
-				
-				parkingLotsNumbersComboBoxModel.addElement(pl.getParkingNumber());
-			}
-		}
 	}
 	
 	public void initButtons() {
@@ -187,7 +199,6 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		    if(n == JOptionPane.OK_OPTION) {
 		    	 
-		    	calendar.dispose();
 		    	this.dispose();
 		    }
 		});
@@ -207,9 +218,16 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		contentPane.add(btnCalendarIn);
 		
 		btnCalendarIn.addActionListener(ActionEvent -> {
-			
-			calendar.setTitle("Entrada");
-			calendar.setVisible(true);
+			try {
+				//This property indicates that we'll use the calendar for the day of entry.
+				calendarType = "IN";
+				CarCalendarFrame calendar = new CarCalendarFrame(this, calendarType);
+				calendar.setTitle("Entrada");
+				calendar.setVisible(true);
+				
+			}catch (Exception exp) {
+				JOptionPane.showMessageDialog(null, "No se ha podido inicializar el calendario.", "!", JOptionPane.WARNING_MESSAGE);
+			}
 		});
 		
 		JButton btnCalendarOut = new JButton("Hasta");
@@ -222,15 +240,34 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		btnCalendarOut.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnCalendarOut.setHorizontalTextPosition(SwingConstants.CENTER);
 		
+		btnCalendarOut.addActionListener(ActionEvent -> {
+			try {
+				//This property indicates that we'll use the calendar for the day of entry.
+				calendarType = "OUT";
+				CarCalendarFrame calendar = new CarCalendarFrame(this, calendarType);
+				calendar.setTitle("Salida");
+				calendar.setVisible(true);
+				
+			}catch (Exception exp) {
+				JOptionPane.showMessageDialog(null, "No se ha podido inicializar el calendario.", "!", JOptionPane.WARNING_MESSAGE);
+			}
+		});
+		
 		contentPane.add(btnCalendarOut);
 		
-		JTextPane textPaneIn = new JTextPane();
-		textPaneIn.setBounds(328, 106, 97, 35);
-		contentPane.add(textPaneIn);
+	}
+	
+	public void getParkingLotsNumbers() {
 		
-		JTextPane textPaneOut = new JTextPane();
-		textPaneOut.setBounds(328, 162, 97, 35);
-		contentPane.add(textPaneOut);
+		parkingLotsNumbersComboBoxModel.removeAllElements();
+		
+		for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+			
+			if(pl.getFloor().equals(comboBoxFloor.getSelectedItem())) {
+				
+				parkingLotsNumbersComboBoxModel.addElement(pl.getParkingNumber());
+			}
+		}
 	}
 	
 
@@ -240,6 +277,8 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			String carOwner = textFieldOwner.getText().toUpperCase();
 			String selectedBrand = comboBoxBrands.getSelectedItem().toString();
 			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+			String dayIn = textPaneIn.getText();
+			String dayOut = textPaneOut.getText();
 			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
 			int plIndex = -1;
 			
@@ -251,11 +290,14 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 					if(pl.isOccupancy() == false) {
 					
 						pl.changeOccupancy(true);
-					
+						
+						pl.setReservationNoTime(dayIn, dayOut);
+						
 						plIndex = plIndex + 1;
 						
 						ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
 						
+						//Actualices the MainFrame.
 						MainFrame.getMainFrame().getContentPane().removeAll();
 						MainFrame.getMainFrame().initWestPanel();
 						MainFrame.getMainFrame().initNorthPanel();

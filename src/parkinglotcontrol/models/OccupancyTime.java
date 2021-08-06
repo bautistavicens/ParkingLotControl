@@ -1,14 +1,13 @@
 package parkinglotcontrol.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class OccupancyTime implements Serializable {
 	
 	private static final long serialVersionUID = 1198303662082529458L;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 	private LocalTime startTime;
 	private LocalTime endTime;
 	
@@ -20,23 +19,22 @@ public class OccupancyTime implements Serializable {
 	}
 	
 	//Use this builder for unlimited/unknown time.
-	public OccupancyTime(LocalDate startDate) {
+	public OccupancyTime(String startDate) {
 		this.setStartDate(startDate);
 		this.setEndDate(null);
 		this.setStartTime(null);
 		this.setEndTime(null);
 	}
 	
-	//use this for a single day stay.
-	public OccupancyTime(LocalTime startTime, LocalTime endTime) {
-		this.setStartDate(LocalDate.now());
-		this.setEndDate(LocalDate.now());
-		this.setStartTime(startTime);
-		this.setEndTime(endTime);
+	public OccupancyTime(String startDate, String endDate) {
+		this(startDate);
+		this.setEndDate(endDate);
+		this.setStartTime(null);
+		this.setEndTime(null);
 	}
 	
 	// Use this constructor for a limited time, with a stay time greater than one day (limit days)
-	public OccupancyTime(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+	public OccupancyTime(String startDate, String endDate, LocalTime startTime, LocalTime endTime) {
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
 		this.setStartTime(startTime);
@@ -44,19 +42,19 @@ public class OccupancyTime implements Serializable {
 	}
 
 	
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
@@ -85,7 +83,7 @@ public class OccupancyTime implements Serializable {
 		
 		if (startDate != null && startTime == null) {
 		
-			return startDate.toString() +" // " + "- Hs";
+			return startDate+" // " + "- Hs";
 		}
 		
 		if (startDate == null && startTime != null) {
@@ -95,7 +93,7 @@ public class OccupancyTime implements Serializable {
 		
 		else {
 			
-			return startDate.toString() + " // " + startTime.toString() + " Hs";
+			return startDate + " // " + startTime.toString() + " Hs";
 		}
 	}
 	
@@ -112,11 +110,11 @@ public class OccupancyTime implements Serializable {
 		
 		if (endDate != null && endTime == null) {
 		
-			return endDate.toString() +" // " + "- Hs";
+			return endDate +" // " + "- Hs";
 		}
 		else {
 			
-			return endDate.toString() +" // "+ endTime.toString() +" Hs";
+			return endDate +" // "+ endTime.toString() +" Hs";
 		}
 	}
 	
