@@ -38,6 +38,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	private JTextField textFieldOwner;
 	private JFormattedTextField textPaneIn;
 	private JFormattedTextField textPaneOut;
+	private CarCalendarFrame calendar;
 	private String calendarType;
 
 	public CarUploadFrame() {
@@ -58,11 +59,20 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		initJComboBoxes();
 		initLabels();
 		initTextFields();
-		initTextPanes();
 		initButtons();
 		getParkingLotsNumbers();
 		
+		try {
+			//This property indicates that we'll use the calendar for the day of entry.
+			calendar = new CarCalendarFrame(this, null);
+			calendar.setTitle("-");
+			calendar.setVisible(false);
+			
+		}catch (Exception exp) {
+			JOptionPane.showMessageDialog(null, "No se ha podido inicializar el calendario.", "!", JOptionPane.WARNING_MESSAGE);
+		}
 	}
+	
 
 	public JFormattedTextField getTextPaneIn() {
 		return textPaneIn;
@@ -79,6 +89,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	public void setTextPaneOut(JFormattedTextField textPaneOut) {
 		this.textPaneOut = textPaneOut;
 	}
+	
 
 	public void initLabels() {
 		JLabel lblTitle = new JLabel("Registro de auto");
@@ -114,6 +125,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			
 	}
 	
+	
 	public void initTextFields() {
 
 		textFieldlLicencePlate = new JTextField();
@@ -126,9 +138,6 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		textFieldOwner.setBounds(87, 146, 153, 36);
 		contentPane.add(textFieldOwner);
 		
-	}
-	
-	public void initTextPanes() {
 		textPaneIn = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
 		textPaneIn.setBounds(328, 106, 97, 35);
 		textPaneIn.setValue(new Date());
@@ -138,7 +147,9 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		textPaneOut.setBounds(328, 162, 97, 35);
 		textPaneOut.setValue(new Date());
 		contentPane.add(textPaneOut);
+		
 	}
+	
 	
 	public void initJComboBoxes() {
 		
@@ -170,14 +181,14 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	
 	public void initButtons() {
 		
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/green_check_icon.png")));
-		btnAceptar.setBounds(146, 374, 85, 57);
-		btnAceptar.setContentAreaFilled(false);
-		btnAceptar.setBorderPainted(false);
-		btnAceptar.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnAceptar.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnAceptar.addActionListener((ActionEvent e)-> {
+		JButton btnOk = new JButton("Aceptar");
+		btnOk.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/green_check_icon.png")));
+		btnOk.setBounds(146, 374, 85, 57);
+		btnOk.setContentAreaFilled(false);
+		btnOk.setBorderPainted(false);
+		btnOk.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnOk.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnOk.addActionListener((ActionEvent e)-> {
 		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		     if(n == JOptionPane.OK_OPTION) {
 		    	
@@ -185,25 +196,26 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		  	 
 		     }
 		});
-		contentPane.add(btnAceptar);
+		contentPane.add(btnOk);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/red_cancel_icon.png")));
-		btnCancelar.setBounds(259, 374, 85, 57);
-		btnCancelar.setContentAreaFilled(false);
-		btnCancelar.setBorderPainted(false);
-		btnCancelar.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnCancelar.setHorizontalTextPosition(SwingConstants.CENTER);
+		JButton btnCancel = new JButton("Cancelar");
+		btnCancel.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/red_cancel_icon.png")));
+		btnCancel.setBounds(259, 374, 85, 57);
+		btnCancel.setContentAreaFilled(false);
+		btnCancel.setBorderPainted(false);
+		btnCancel.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCancel.setHorizontalTextPosition(SwingConstants.CENTER);
 		
-		btnCancelar.addActionListener((ActionEvent e)-> {
+		btnCancel.addActionListener((ActionEvent e)-> {
 			int n = JOptionPane.showConfirmDialog(null,"¿Cancelar operación?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		    if(n == JOptionPane.OK_OPTION) {
-		    	 
+		    	
+		    	this.calendar.dispose();
 		    	this.dispose();
 		    }
 		});
 		
-		contentPane.add(btnCancelar);
+		contentPane.add(btnCancel);
 		
 		JButton btnCalendarIn = new JButton("Desde");
 		btnCalendarIn.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -221,7 +233,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			try {
 				//This property indicates that we'll use the calendar for the day of entry.
 				calendarType = "IN";
-				CarCalendarFrame calendar = new CarCalendarFrame(this, calendarType);
+				calendar = new CarCalendarFrame(this, calendarType);
 				calendar.setTitle("Entrada");
 				calendar.setVisible(true);
 				
@@ -242,9 +254,9 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		
 		btnCalendarOut.addActionListener(ActionEvent -> {
 			try {
-				//This property indicates that we'll use the calendar for the day of entry.
+				//This property indicates that we'll use the calendar for the day of leaving.
 				calendarType = "OUT";
-				CarCalendarFrame calendar = new CarCalendarFrame(this, calendarType);
+				calendar = new CarCalendarFrame(this, calendarType);
 				calendar.setTitle("Salida");
 				calendar.setVisible(true);
 				
@@ -257,6 +269,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		
 	}
 	
+	//This actualices the parking lots numbers if the user changes the floor.
 	public void getParkingLotsNumbers() {
 		
 		parkingLotsNumbersComboBoxModel.removeAllElements();
@@ -270,7 +283,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		}
 	}
 	
-
+	//Implemented from "GUIUploadMethod" interface
 	public void upload() throws NullPointerException {
 		try {
 			String carLicencePlate = textFieldlLicencePlate.getText().toUpperCase();
@@ -295,6 +308,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 						
 						plIndex = plIndex + 1;
 						
+						//Puts a new "Car" object in "CarsList" ArrayList on "ParkingLotControl" class. 
 						ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
 						
 						//Actualices the MainFrame.
@@ -312,7 +326,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 					}
 				}
 			}
-	    	
+	    //In case there's any ParkingLot class yet.
 		}catch(NullPointerException e) {
 			JOptionPane.showMessageDialog(null,"No se han encontrado estacionamientos en el piso seleccionado", "Error!", JOptionPane.ERROR_MESSAGE);
 		}
