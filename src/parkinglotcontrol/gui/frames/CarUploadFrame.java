@@ -23,6 +23,9 @@ import parkinglotcontrol.enums.CarBrands;
 import parkinglotcontrol.interfaces.GuiUploadMethod;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import java.util.Calendar;
 
 public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 
@@ -144,7 +147,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		contentPane.add(textPaneIn);
 		
 		textPaneOut = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
-		textPaneOut.setBounds(328, 162, 97, 35);
+		textPaneOut.setBounds(328, 214, 97, 35);
 		textPaneOut.setValue(new Date());
 		contentPane.add(textPaneOut);
 		
@@ -245,7 +248,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		JButton btnCalendarOut = new JButton("Hasta");
 		btnCalendarOut.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		
-		btnCalendarOut.setBounds(259, 158, 65, 50);
+		btnCalendarOut.setBounds(259, 214, 65, 50);
 		btnCalendarOut.setIcon(new ImageIcon(ParkingLotUploadFrame.class.getResource("/parkinglotcontrol/images/buttons/calendar_icon_small.png")));
 		btnCalendarOut.setContentAreaFilled(false);
 		btnCalendarOut.setBorderPainted(false);
@@ -266,6 +269,14 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		});
 		
 		contentPane.add(btnCalendarOut);
+		
+		JSpinner spinnerHourDayIn = new JSpinner();
+		spinnerHourDayIn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		spinnerHourDayIn.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR_OF_DAY));
+		JSpinner.DateEditor de = new JSpinner.DateEditor(spinnerHourDayIn, "HH:mm");
+		spinnerHourDayIn.setEditor(de);
+		spinnerHourDayIn.setBounds(328, 147, 97, 35);
+		contentPane.add(spinnerHourDayIn);
 		
 	}
 	
