@@ -1,15 +1,14 @@
 package parkinglotcontrol.models;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 
 public class OccupancyTime implements Serializable {
 	
 	private static final long serialVersionUID = 1198303662082529458L;
 	private String startDate;
 	private String endDate;
-	private LocalTime startTime;
-	private LocalTime endTime;
+	private String startTime;
+	private String endTime;
 	
 	public OccupancyTime() {
 		this.setStartDate(null);
@@ -33,8 +32,7 @@ public class OccupancyTime implements Serializable {
 		this.setEndTime(null);
 	}
 	
-	// Use this constructor for a limited time, with a stay time greater than one day (limit days)
-	public OccupancyTime(String startDate, String endDate, LocalTime startTime, LocalTime endTime) {
+	public OccupancyTime(String startDate, String endDate, String startTime, String endTime) {
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
 		this.setStartTime(startTime);
@@ -58,19 +56,19 @@ public class OccupancyTime implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public LocalTime getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(LocalTime startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public LocalTime getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(LocalTime endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	

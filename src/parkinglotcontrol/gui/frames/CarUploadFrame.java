@@ -3,6 +3,7 @@ package parkinglotcontrol.gui.frames;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -14,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -23,9 +26,6 @@ import parkinglotcontrol.enums.CarBrands;
 import parkinglotcontrol.interfaces.GuiUploadMethod;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Calendar;
 
 public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 
@@ -41,6 +41,8 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	private JTextField textFieldOwner;
 	private JFormattedTextField textPaneIn;
 	private JFormattedTextField textPaneOut;
+	private JSpinner spinnerHourDayIn;
+	private JSpinner spinnerHourDayOut;
 	private CarCalendarFrame calendar;
 	private String calendarType;
 
@@ -63,6 +65,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		initLabels();
 		initTextFields();
 		initButtons();
+		initSpinners();
 		getParkingLotsNumbers();
 		
 		try {
@@ -270,14 +273,24 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 		
 		contentPane.add(btnCalendarOut);
 		
-		JSpinner spinnerHourDayIn = new JSpinner();
+	}
+	
+	public void initSpinners() {
+		spinnerHourDayIn = new JSpinner();
 		spinnerHourDayIn.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		spinnerHourDayIn.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR_OF_DAY));
-		JSpinner.DateEditor de = new JSpinner.DateEditor(spinnerHourDayIn, "HH:mm");
-		spinnerHourDayIn.setEditor(de);
+		JSpinner.DateEditor spinnerDE1 = new JSpinner.DateEditor(spinnerHourDayIn, "HH:mm");
+		spinnerHourDayIn.setEditor(spinnerDE1);
 		spinnerHourDayIn.setBounds(328, 147, 97, 35);
 		contentPane.add(spinnerHourDayIn);
 		
+		spinnerHourDayOut = new JSpinner();
+		spinnerHourDayOut.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		spinnerHourDayOut.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR_OF_DAY));
+		JSpinner.DateEditor spinnerDE2 = new JSpinner.DateEditor(spinnerHourDayOut, "HH:mm");
+		spinnerHourDayOut.setEditor(spinnerDE2);
+		spinnerHourDayOut.setBounds(328, 259, 97, 35);
+		contentPane.add(spinnerHourDayOut);
 	}
 	
 	//This actualices the parking lots numbers if the user changes the floor.
@@ -303,6 +316,14 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
 			String dayIn = textPaneIn.getText();
 			String dayOut = textPaneOut.getText();
+			Date hourInDate = (Date)spinnerHourDayIn.getValue();
+			Date hourOutDate = (Date)spinnerHourDayOut.getValue();
+			Integer hourIn = hourInDate.getHours();
+			Integer minuteIn = hourInDate.getMinutes();
+			Integer hourOut = hourOutDate.getHours();
+			Integer minuteOut = hourOutDate.getMinutes();
+			String timeReservationIn = hourIn.toString() + ":" + minuteIn.toString();
+			String timeReservationOut = hourOut.toString() + ":" + minuteOut.toString();
 			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
 			int plIndex = -1;
 			
@@ -315,7 +336,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 					
 						pl.changeOccupancy(true);
 						
-						pl.setReservationNoTime(dayIn, dayOut);
+						pl.setReservationNoTime(dayIn, dayOut, timeReservationIn, timeReservationOut);
 						
 						plIndex = plIndex + 1;
 						
