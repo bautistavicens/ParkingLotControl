@@ -65,22 +65,27 @@ public class ParkingLot implements Serializable{
 		return occupancyTime;
 	}
 	
+	public void setOccupancyTime(OccupancyTime occupancyTime) {
+		this.occupancyTime = occupancyTime;
+	}
+	
+	
 	//Use this to set parking lot reservation time.
-	public void setReservationNoTime(String startDate, String endDate, String startTime, String endTime) {
+	public void setReservation(String startDate, String endDate, String startTime, String endTime) {
 		this.occupancyTime.setStartDate(startDate);
 		this.occupancyTime.setEndDate(endDate);
 		this.occupancyTime.setStartTime(startTime);
 		this.occupancyTime.setEndTime(endTime);
 	}
 	
-	public void setOccupancyTime(OccupancyTime occupancyTime) {
-		this.occupancyTime = occupancyTime;
-	}
-
 
 	//Use this to set the parking occupancy, to indicate whether it's free or not
+	//if "status" is false time is set to null.
 	public void changeOccupancy (boolean status){
 		this.setOccupancy(status);
+		if(status == false) {
+			this.occupancyTime.resetOccupancyTime();
+		}
 	}
 	
 	//Use this for table

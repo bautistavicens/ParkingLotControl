@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -308,12 +309,15 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 	}
 	
 	//Implemented from "GUIUploadMethod" interface
-	public void upload() throws NullPointerException {
+	@SuppressWarnings("deprecation")
+	public void upload() throws NullPointerException, ConcurrentModificationException {
 		try {
 			String carLicencePlate = textFieldlLicencePlate.getText().toUpperCase();
 			String carOwner = textFieldOwner.getText().toUpperCase();
 			String selectedBrand = comboBoxBrands.getSelectedItem().toString();
 			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+			ParkingLot spl = null;
+			/*---------------------------------------------TIME------------------------------------------------------*/
 			String dayIn = textPaneIn.getText();
 			String dayOut = textPaneOut.getText();
 			Date hourInDate = (Date)spinnerHourDayIn.getValue();
@@ -322,10 +326,12 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			Integer minuteIn = hourInDate.getMinutes();
 			Integer hourOut = hourOutDate.getHours();
 			Integer minuteOut = hourOutDate.getMinutes();
-			String timeReservationIn = hourIn.toString() + ":" + minuteIn.toString();
-			String timeReservationOut = hourOut.toString() + ":" + minuteOut.toString();
+			String timeReservationIn = String.format("%02d",hourIn) + ":" + String.format("%02d", minuteIn);
+			String timeReservationOut = String.format("%02d",hourOut) + ":" + String.format("%02d", minuteOut);
 			int selectedParkingNumber = Integer.parseInt(comboBoxParkingLotsNumbers.getSelectedItem().toString());
-			int plIndex = -1;
+			/*----------------------------------------------------------------------------------------------------*/
+			//DO NOT TOUCH.
+			boolean success = false;
 			
 			//This changes the "Occupancy" of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
 			for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
@@ -336,31 +342,45 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 					
 						pl.changeOccupancy(true);
 						
-						pl.setReservationNoTime(dayIn, dayOut, timeReservationIn, timeReservationOut);
+						pl.setReservation(dayIn, dayOut, timeReservationIn, timeReservationOut);
 						
-						plIndex = plIndex + 1;
+						spl = pl;
 						
-						//Puts a new "Car" object in "CarsList" ArrayList on "ParkingLotControl" class. 
-						ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, ParkingLotControl.getParkingLotControl().getParkingLotsList().get(plIndex)));
+						success = true;
 						
-						//Actualices the MainFrame.
-						MainFrame.getMainFrame().getContentPane().removeAll();
-						MainFrame.getMainFrame().initWestPanel();
-						MainFrame.getMainFrame().initNorthPanel();
-						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-						MainFrame.getMainFrame().getContentPane().revalidate();
-						MainFrame.getMainFrame().getContentPane().repaint();
-						
-				    	this.dispose();
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "El estacionamiento está ocupado!", "!", JOptionPane.WARNING_MESSAGE);
+						success = false;
 					}
 				}
 			}
+			//To avoid ConcurrentModificationException.
+			if(success == true) {
+				//Puts a new "Car" object in "CarsList" ArrayList on "ParkingLotControl" class. 
+				ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, spl));
+				
+				//Actualices the MainFrame.
+				MainFrame.getMainFrame().getContentPane().removeAll();
+				MainFrame.getMainFrame().initWestPanel();
+				MainFrame.getMainFrame().initNorthPanel();
+				MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+				MainFrame.getMainFrame().getContentPane().revalidate();
+				MainFrame.getMainFrame().getContentPane().repaint();
+				
+		    	this.dispose();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "No se ha podido registrar el vehiculo", "Error!", JOptionPane.ERROR_MESSAGE);
+			}
 	    //In case there's any ParkingLot class yet.
 		}catch(NullPointerException e) {
+			
 			JOptionPane.showMessageDialog(null,"No se han encontrado estacionamientos en el piso seleccionado", "Error!", JOptionPane.ERROR_MESSAGE);
+			
+		}catch(ConcurrentModificationException e) {
+			
+			JOptionPane.showMessageDialog(null, "Se intentó actuar sobre 2 listas a la vez.", "Error!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

@@ -116,6 +116,12 @@ public class OccupancyTime implements Serializable {
 		}
 	}
 	
+	public void resetOccupancyTime() {
+		this.setStartDate(null);
+		this.setEndDate(null);
+		this.setStartTime(null);
+		this.setEndTime(null);
+	}
 	
 	public String toString() {
 		return "Inicio: "+ startDate +" "+ startTime + " Fin: " + endDate + " " + endTime;  

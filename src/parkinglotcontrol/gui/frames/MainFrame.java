@@ -10,6 +10,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.print.PrinterException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private static MainFrame mainFrame;
 	private Dimension dimensionPantalla;
+	TablesPanel tablesPanel;
 	private int showTable;
 	
 	
@@ -125,7 +127,7 @@ public class MainFrame extends JFrame {
 	
 	public void initCenterPanel(int selectedTable) {
 		try {
-			TablesPanel tablesPanel = new TablesPanel(selectedTable);
+			tablesPanel = new TablesPanel(selectedTable);
 			contentPane.add(tablesPanel, BorderLayout.CENTER);
 		}catch(NullPointerException e) {
 			JOptionPane.showMessageDialog(null, e, "Error!", JOptionPane.ERROR_MESSAGE);
@@ -142,6 +144,7 @@ public class MainFrame extends JFrame {
 
 	}
 	
+	
 	public void initMenuBar(){
 		JMenuBar menuBar = new JMenuBar();
 		
@@ -153,34 +156,60 @@ public class MainFrame extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 		
-		JMenuItem menuAddCarItem0 = new JMenuItem("Añadir Auto");
-		JMenuItem menuAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
-		JMenuItem menuSaveItem2 = new JMenuItem("Guardar");
-		JMenuItem menuHelpItem3 = new JMenuItem("?");
+		JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Auto");
+		JMenuItem fileAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
+		JMenuItem filePrintItem2 = new JMenuItem("Imprimir");
 		
-		menuAddCarItem0.addActionListener((ActionEvent e) -> {
+		JMenuItem menuHelpItem = new JMenuItem("?");
+		
+		fileAddCarItem0.addActionListener((ActionEvent e) -> {
 			new CarUploadFrame();
 		});
-		menuAddParkingItem1.addActionListener((ActionEvent e) -> {
+		
+		fileAddParkingItem1.addActionListener((ActionEvent e) -> {
 			new ParkingLotUploadFrame();
 		});
-		menuSaveItem2.addActionListener((ActionEvent e) -> {
+		
+		filePrintItem2.addActionListener((ActionEvent e) -> {
+			if(this.showTable == 0) {
+				try {
+					tablesPanel.getTableParking().print();
+				} catch (PrinterException exp) {
+					JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
+					exp.printStackTrace();
+					
+				} catch (Exception exp) {
+					exp.printStackTrace();
+				}
+			}
+			else {
+				try {
+					tablesPanel.getTableCar().print();
+				} catch (PrinterException exp) {
+					JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
+					exp.printStackTrace();
+					
+				} catch (Exception exp) {
+					exp.printStackTrace();
+				}
+			}
 		});
-		menuHelpItem3.addActionListener((ActionEvent e) -> {
+		
+		menuHelpItem.addActionListener((ActionEvent e) -> {
 			
 		});
 		
-		menuAddCarItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
-		menuAddParkingItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
-		menuSaveItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK));
-		menuHelpItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
+		fileAddCarItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
+		fileAddParkingItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+		filePrintItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+		menuHelpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 		
-		fileMenu.add(menuAddCarItem0);
-		fileMenu.add(menuAddParkingItem1);
-		fileMenu.add(menuSaveItem2);
-		helpMenu.add(menuHelpItem3);
-		
+		fileMenu.add(fileAddCarItem0);
+		fileMenu.add(fileAddParkingItem1);
+		fileMenu.add(filePrintItem2);
+		helpMenu.add(menuHelpItem);
 	}
+	
 	
 	//Use this to manage program shut down.
 	public void handleClosing() {

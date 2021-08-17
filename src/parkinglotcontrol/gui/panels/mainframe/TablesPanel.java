@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.print.PrinterException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.MainFrame;
+import parkinglotcontrol.models.ParkingLot;
 import parkinglotcontrol.tables.TableCar;
 import parkinglotcontrol.tables.TableParking;
 
@@ -42,7 +44,27 @@ public class TablesPanel extends JPanel {
 	}
 
 
- 	public void initPanel(int table) {
+ 	public JTable getTableParking() {
+		return tableParking;
+	}
+
+
+	public void setTableParking(JTable tableParking) {
+		this.tableParking = tableParking;
+	}
+
+
+	public JTable getTableCar() {
+		return tableCar;
+	}
+
+
+	public void setTableCar(JTable tableCar) {
+		this.tableCar = tableCar;
+	}
+
+
+	public void initPanel(int table) {
  		//Tables:
  			//Parking lots 0
  			//Cars 1
@@ -67,7 +89,7 @@ public class TablesPanel extends JPanel {
  		else {
 		
  			tableCar = new JTable(new TableCar(ParkingLotControl.getParkingLotControl().getCarsList()));
-
+ 			
  			this.add(tableCar, BorderLayout.CENTER);
 		
  			tableCar.addMouseListener(new MouseAdapter() {
@@ -85,43 +107,112 @@ public class TablesPanel extends JPanel {
 		
  		}
  	}
- 	public void initButtons(int selectedTable) { 	
+ 	public void initButtons(int selectedTable) {
+ 		
+ 		JButton btnEdit = new JButton("Editar");
+ 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnEdit.setBorderPainted(false);
+		btnEdit.setContentAreaFilled(false);
+		btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_small.png")));
 		
- 		JButton btnEliminar = new JButton("Eliminar");
- 		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnEliminar.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnEliminar.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnEliminar.setBorderPainted(false);
-		btnEliminar.setContentAreaFilled(false);
-		btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
-		
-		//btnEliminar button MouseListener.
- 		btnEliminar.addMouseListener(new MouseListener() {
+		btnEdit.addMouseListener(new MouseListener() {
 			
 			public void mouseExited(MouseEvent e) {
-				btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+				btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_small.png")));
 			}
 				
 			public void mouseEntered(MouseEvent e) {
-				btnEliminar.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_big.png")));		
+				btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_big.png")));		
+			}
+
+			public void mouseClicked(MouseEvent e) {
+		 			
+				//Parking lots 0; Cars 1.
+				if(selectedTable == 0) {
+					try {
+						tableParking.print();
+					} catch (PrinterException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					try {
+						tableCar.print();
+					} catch (PrinterException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+
+			public void mousePressed(MouseEvent e) {
+				//Pass.
+				
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				//Pass.
+				
+			}
+		});
+		
+		btnsPanel.add(btnEdit);
+		
+ 		JButton btnDelete = new JButton("Eliminar");
+ 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnDelete.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnDelete.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnDelete.setBorderPainted(false);
+		btnDelete.setContentAreaFilled(false);
+		btnDelete.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+		
+		//btnEliminar button MouseListener.
+ 		btnDelete.addMouseListener(new MouseListener() {
+			
+			public void mouseExited(MouseEvent e) {
+				btnDelete.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_small.png")));
+			}
+				
+			public void mouseEntered(MouseEvent e) {
+				btnDelete.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_big.png")));		
 			}
 			
 			public void mouseClicked(MouseEvent e) {
 				if(selectedRow >= 0) {
+					
+					//Parking lots 0; Cars 1.
 					if(selectedTable == 0) {
-						//The program gets the row that user selected and deletes it from the main list.
-						ParkingLotControl.getParkingLotControl().getParkingLotsList().remove(selectedRow);
+						
+						//Checks if the ParkingLot is occupied.
+						if(ParkingLotControl.getParkingLotControl().getParkingLotsList().get(selectedRow).isOccupancy() == false) {
+							
+							//The program gets the row that user selected and deletes the object (ParkingLot) from the main list.
+							ParkingLotControl.getParkingLotControl().getParkingLotsList().remove(selectedRow);
 			    		
-						MainFrame.getMainFrame().getContentPane().removeAll();
-						MainFrame.getMainFrame().initWestPanel();
-						MainFrame.getMainFrame().initNorthPanel();
-						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-						MainFrame.getMainFrame().getContentPane().revalidate();
-						MainFrame.getMainFrame().getContentPane().repaint();
+							//Actualices the MainFrame.
+							MainFrame.getMainFrame().getContentPane().removeAll();
+							MainFrame.getMainFrame().initWestPanel();
+							MainFrame.getMainFrame().initNorthPanel();
+							MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
+							MainFrame.getMainFrame().getContentPane().revalidate();
+							MainFrame.getMainFrame().getContentPane().repaint();
+						}
+						else {
+							JOptionPane.showMessageDialog(null,"El estacionamiento está en uso!", "!", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 					else {
+						//frees the parking lot.
+						ParkingLotControl.getParkingLotControl().getCarsList().get(selectedRow).getParking().changeOccupancy(false);
+						
+						//The program gets the row that user selected and deletes the objects (Car) from the main list.
 						ParkingLotControl.getParkingLotControl().getCarsList().remove(selectedRow);
 			    		
+						//Actualices the MainFrame.
 						MainFrame.getMainFrame().getContentPane().removeAll();
 						MainFrame.getMainFrame().initWestPanel();
 						MainFrame.getMainFrame().initNorthPanel();
@@ -146,34 +237,37 @@ public class TablesPanel extends JPanel {
 			}
 		});
  		
-		btnsPanel.add(btnEliminar);
+		btnsPanel.add(btnDelete);
 		
-		JButton btnEliminarTodo = new JButton("Eliminar Todo");
- 		btnEliminarTodo.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnEliminarTodo.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnEliminarTodo.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnEliminarTodo.setBorderPainted(false);
-		btnEliminarTodo.setContentAreaFilled(false);
-		btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
+		JButton btnDeleteAll = new JButton("Eliminar Todo");
+ 		btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnDeleteAll.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnDeleteAll.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnDeleteAll.setBorderPainted(false);
+		btnDeleteAll.setContentAreaFilled(false);
+		btnDeleteAll.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
 		
 		//btnEliminarTodo button MouseListener.
-		btnEliminarTodo.addMouseListener(new MouseListener() {
+		btnDeleteAll.addMouseListener(new MouseListener() {
 				
 			public void mouseExited(MouseEvent e) {
-				btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
+				btnDeleteAll.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_small.png")));
 			}
 				
 			public void mouseEntered(MouseEvent e) {
-				btnEliminarTodo.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_big.png")));		
+				btnDeleteAll.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/trash_can_plus_big.png")));		
 			}
 			
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
+				//Parking lots 0; Cars 1.
 				if(selectedTable == 0) {
 					int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los estacionamietos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				
 					if(n == JOptionPane.YES_OPTION) {
+
 						ParkingLotControl.getParkingLotControl().getParkingLotsList().clear();
-					
+						
+						//Actualizes the MainFrame
 						MainFrame.getMainFrame().getContentPane().removeAll();
 						MainFrame.getMainFrame().initWestPanel();
 						MainFrame.getMainFrame().initNorthPanel();
@@ -186,8 +280,16 @@ public class TablesPanel extends JPanel {
 					int n = JOptionPane.showConfirmDialog(null,"¿Desea eliminar todos los autos?" ,"!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					
 					if(n == JOptionPane.YES_OPTION) {
+						
+						//This goes through the whole "parkingLotsList" and frees every Parking Lot in it.
+						for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+							
+							pl.changeOccupancy(false);
+						}
+						
 						ParkingLotControl.getParkingLotControl().getCarsList().clear();
-					
+						
+						//Actualices MainFrame
 						MainFrame.getMainFrame().getContentPane().removeAll();
 						MainFrame.getMainFrame().initWestPanel();
 						MainFrame.getMainFrame().initNorthPanel();
@@ -209,7 +311,7 @@ public class TablesPanel extends JPanel {
 			}
 		});
  	
-		btnsPanel.add(btnEliminarTodo);
+		btnsPanel.add(btnDeleteAll);
  	}
 }
  	
