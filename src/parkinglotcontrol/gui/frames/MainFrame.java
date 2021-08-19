@@ -10,7 +10,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.print.PrinterException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -156,12 +155,20 @@ public class MainFrame extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 		
-		JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Auto");
-		JMenuItem fileAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
-		JMenuItem filePrintItem2 = new JMenuItem("Imprimir");
+		/*----------------------------fileMenu Items---------------------------------*/
+			JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Auto");
+			JMenuItem fileAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
+				
+			fileMenu.add(fileAddCarItem0);
+			fileMenu.add(fileAddParkingItem1);
+		/*--------------------------------------------------------------------------*/
 		
-		JMenuItem menuHelpItem = new JMenuItem("?");
-		
+		/*----------------------------helpMenu Items---------------------------------*/
+			JMenuItem menuHelpItem = new JMenuItem("Acerca de");
+			
+			helpMenu.add(menuHelpItem);
+		/*--------------------------------------------------------------------------*/
+			
 		fileAddCarItem0.addActionListener((ActionEvent e) -> {
 			new CarUploadFrame();
 		});
@@ -170,44 +177,15 @@ public class MainFrame extends JFrame {
 			new ParkingLotUploadFrame();
 		});
 		
-		filePrintItem2.addActionListener((ActionEvent e) -> {
-			if(this.showTable == 0) {
-				try {
-					tablesPanel.getTableParking().print();
-				} catch (PrinterException exp) {
-					JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
-					exp.printStackTrace();
-					
-				} catch (Exception exp) {
-					exp.printStackTrace();
-				}
-			}
-			else {
-				try {
-					tablesPanel.getTableCar().print();
-				} catch (PrinterException exp) {
-					JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
-					exp.printStackTrace();
-					
-				} catch (Exception exp) {
-					exp.printStackTrace();
-				}
-			}
-		});
-		
 		menuHelpItem.addActionListener((ActionEvent e) -> {
 			
 		});
 		
+		/*-----------------------------------------Accelerators-----------------------------------------------*/
 		fileAddCarItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
 		fileAddParkingItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
-		filePrintItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
 		menuHelpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
-		
-		fileMenu.add(fileAddCarItem0);
-		fileMenu.add(fileAddParkingItem1);
-		fileMenu.add(filePrintItem2);
-		helpMenu.add(menuHelpItem);
+		/*---------------------------------------------------------------------------------------------------*/
 	}
 	
 	

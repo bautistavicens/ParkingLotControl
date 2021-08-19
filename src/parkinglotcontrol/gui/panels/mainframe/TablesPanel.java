@@ -108,62 +108,70 @@ public class TablesPanel extends JPanel {
  		}
  	}
  	public void initButtons(int selectedTable) {
- 		
- 		JButton btnEdit = new JButton("Editar");
- 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnEdit.setBorderPainted(false);
-		btnEdit.setContentAreaFilled(false);
-		btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_small.png")));
+ 		JButton btnPrint = new JButton("Imprimir");
+ 		btnPrint.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnPrint.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnPrint.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnPrint.setBorderPainted(false);
+		btnPrint.setContentAreaFilled(false);
+		btnPrint.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/printer_icon_small.png")));
 		
-		btnEdit.addMouseListener(new MouseListener() {
+		btnPrint.addMouseListener(new MouseListener() {
 			
 			public void mouseExited(MouseEvent e) {
-				btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_small.png")));
+				btnPrint.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/printer_icon_small.png")));
 			}
 				
 			public void mouseEntered(MouseEvent e) {
-				btnEdit.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/pencil_icon_big.png")));		
+				btnPrint.setIcon(new ImageIcon(MainFrame.class.getResource("/parkinglotcontrol/images/buttons/printer_icon_big.png")));		
 			}
 
 			public void mouseClicked(MouseEvent e) {
-		 			
+				
 				//Parking lots 0; Cars 1.
 				if(selectedTable == 0) {
 					try {
-						tableParking.print();
-					} catch (PrinterException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						
+						tableParking.print();	
+						
+					} catch (PrinterException exp) {
+						JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
+						exp.printStackTrace();
+							
+					} catch (Exception exp) {
+						exp.printStackTrace();
 					}
+				
 				}
 				else {
 					try {
-						tableCar.print();
-					} catch (PrinterException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						
+						tableCar.print();	
+						
+					} catch (PrinterException exp) {
+						JOptionPane.showMessageDialog(null, "No se ha podido inicializar el menú de impresion!", "Error!", JOptionPane.ERROR_MESSAGE);
+						exp.printStackTrace();
+							
+					} catch (Exception exp) {
+						exp.printStackTrace();
 					}
 				}
-				
 			}
 
 			public void mousePressed(MouseEvent e) {
 				//Pass.
-				
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				//Pass.
-				
+				//Pass.	
 			}
+			
 		});
 		
-		btnsPanel.add(btnEdit);
+		btnsPanel.add(btnPrint);
 		
  		JButton btnDelete = new JButton("Eliminar");
- 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 9));
+ 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDelete.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnDelete.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnDelete.setBorderPainted(false);
@@ -240,7 +248,7 @@ public class TablesPanel extends JPanel {
 		btnsPanel.add(btnDelete);
 		
 		JButton btnDeleteAll = new JButton("Eliminar Todo");
- 		btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 9));
+ 		btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeleteAll.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnDeleteAll.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnDeleteAll.setBorderPainted(false);
