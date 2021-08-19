@@ -156,7 +156,7 @@ public class MainFrame extends JFrame {
 		menuBar.add(helpMenu);
 		
 		/*----------------------------fileMenu Items---------------------------------*/
-			JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Auto");
+			JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Vehiculo");
 			JMenuItem fileAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
 				
 			fileMenu.add(fileAddCarItem0);

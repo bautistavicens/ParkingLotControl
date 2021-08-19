@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import parkinglotcontrol.comps.ParkingLotFloorComparator;
 import parkinglotcontrol.comps.ParkingLotNumberComparator;
 import parkinglotcontrol.models.ParkingLot;
 
@@ -20,11 +19,8 @@ public class TableParking extends AbstractTableModel{
 	public TableParking(ArrayList<ParkingLot> parkingLotsList) {
 		this.parkingLotsList = parkingLotsList;
 
-		//Organice Parkings by ID.
+		//Organice Parkings by parkingNumber.
 		Collections.sort(this.parkingLotsList, new ParkingLotNumberComparator());
-		
-		//Organice Parkings by floor
-		Collections.sort(this.parkingLotsList, new ParkingLotFloorComparator());
 		
 	}
     

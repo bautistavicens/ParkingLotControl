@@ -1,10 +1,12 @@
 package parkinglotcontrol.tables;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import parkinglotcontrol.comps.CarParkingLotNumberComparator;
 import parkinglotcontrol.models.Car;
 
 public class TableCar extends AbstractTableModel{
@@ -16,7 +18,10 @@ public class TableCar extends AbstractTableModel{
 	public TableCar(ArrayList<Car> carsList) {
 		this.carsList = carsList;
 		
-		}
+		//Organice Parkings by parkingNumber.
+		Collections.sort(this.carsList, new CarParkingLotNumberComparator());
+		
+	}
     
 	public int getRowCount() {
 		// El tamaño de las filas será el largo de la lista.
