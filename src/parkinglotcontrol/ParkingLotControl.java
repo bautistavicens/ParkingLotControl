@@ -6,10 +6,12 @@ import parkinglotcontrol.files.MainDirectory;
 import parkinglotcontrol.interfaces.PLCUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
+import parkinglotcontrol.models.User;
 
 public class ParkingLotControl implements PLCUploadMethods {
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
+	public User user;
 	private MainDirectory mainDirectory;
 	private static ParkingLotControl parkingLotControl;
 	
@@ -32,6 +34,16 @@ public class ParkingLotControl implements PLCUploadMethods {
 	}
 	
 	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
 	public MainDirectory getMainDirectory() {
 		return mainDirectory;
 	}
