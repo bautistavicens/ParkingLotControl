@@ -20,8 +20,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import parkinglotcontrol.models.CustomCalendar;
-
 
 public class CarCalendarFrame extends JFrame implements PropertyChangeListener {
 

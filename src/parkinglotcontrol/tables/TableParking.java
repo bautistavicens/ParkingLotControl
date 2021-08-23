@@ -22,6 +22,7 @@ public class TableParking extends AbstractTableModel{
 		//Organice Parkings by parkingNumber.
 		Collections.sort(this.parkingLotsList, new ParkingLotNumberComparator());
 		
+		
 	}
     
 	public int getRowCount() {

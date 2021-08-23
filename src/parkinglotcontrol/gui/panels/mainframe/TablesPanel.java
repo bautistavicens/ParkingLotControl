@@ -1,6 +1,7 @@
 package parkinglotcontrol.gui.panels.mainframe;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableColumn;
 
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.MainFrame;
@@ -29,6 +31,7 @@ public class TablesPanel extends JPanel {
 	private JScrollPane scrollPaneTableParking;
 	private int selectedRow = -1;
 	private JPanel btnsPanel;
+	
 	
  	public TablesPanel(int selectedTable) {
 		
@@ -84,8 +87,8 @@ public class TablesPanel extends JPanel {
 	
  			scrollPaneTableParking = new JScrollPane(tableParking);
  			this.add(scrollPaneTableParking);
+ 			
  		}
-	
  		else {
 		
  			tableCar = new JTable(new TableCar(ParkingLotControl.getParkingLotControl().getCarsList()));
@@ -321,5 +324,29 @@ public class TablesPanel extends JPanel {
  	
 		btnsPanel.add(btnDeleteAll);
  	}
+ 	
+ 	//Use this to zoom tables.
+ 	public void zoom(boolean in, JTable table) {
+		Font oldFont = table.getFont();
+	       float size = oldFont.getSize() + (in ? +2 : -2);
+	       table.setFont(oldFont.deriveFont(size));
+
+	      for (int row = 0; row < table.getRowCount(); row++) {
+	           int rowHeight = table.getRowHeight(row);
+
+	           for (int col = 0; col < table.getColumnCount(); col++) {
+	               Component comp = table.prepareRenderer(table.getCellRenderer(row, col), row, col);
+	               TableColumn column = table.getColumnModel().getColumn(col);
+	               int colWidth = column.getWidth();
+
+	               rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+	               colWidth = comp.getPreferredSize().width;
+
+	               column.setPreferredWidth(colWidth);
+	           }
+	           table.setRowHeight(row, rowHeight);
+	      }
+	 }
 }
+
  	

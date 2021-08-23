@@ -1,11 +1,11 @@
 package parkinglotcontrol.client;
 
-import parkinglotcontrol.gui.frames.MainFrame;
+import parkinglotcontrol.gui.frames.LoginFrame;
 
 public class Run {
 	
 	public static void main(String[] args) {
-		MainFrame.getMainFrame();
+		new LoginFrame();
 	}
 
 }

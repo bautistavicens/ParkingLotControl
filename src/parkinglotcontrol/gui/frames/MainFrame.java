@@ -26,8 +26,8 @@ import javax.swing.border.EmptyBorder;
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.panels.mainframe.DashboardButtonsPanel;
 import parkinglotcontrol.gui.panels.mainframe.TablesPanel;
-
-public class MainFrame extends JFrame {
+import parkinglotcontrol.interfaces.SaveData;
+public class MainFrame extends JFrame implements SaveData {
 
 	private static final long serialVersionUID = 8204896037972083801L;
 	private JPanel contentPane;
@@ -35,7 +35,6 @@ public class MainFrame extends JFrame {
 	private Dimension dimensionPantalla;
 	TablesPanel tablesPanel;
 	private int showTable;
-	
 	
 	//Don´t use this builder, use ".getMainFrame()"
 	private MainFrame(){	
@@ -124,7 +123,7 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-	public void initCenterPanel(int selectedTable) {
+	public void initCenterPanel(int selectedTable) throws NullPointerException{
 		try {
 			tablesPanel = new TablesPanel(selectedTable);
 			contentPane.add(tablesPanel, BorderLayout.CENTER);
@@ -150,19 +149,30 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu fileMenu = new JMenu("Archivo");
+		JMenu zoomMenu = new JMenu("Zoom");
 		JMenu helpMenu = new JMenu("Ayuda");
 		
 		menuBar.add(fileMenu);
+		menuBar.add(zoomMenu);
 		menuBar.add(helpMenu);
+		
 		
 		/*----------------------------fileMenu Items---------------------------------*/
 			JMenuItem fileAddCarItem0 = new JMenuItem("Añadir Vehiculo");
 			JMenuItem fileAddParkingItem1 = new JMenuItem("Añadir Estacionamiento");
+			JMenuItem fileSaveItem2 = new JMenuItem("Guardar");
 				
 			fileMenu.add(fileAddCarItem0);
 			fileMenu.add(fileAddParkingItem1);
+			fileMenu.add(fileSaveItem2);
 		/*--------------------------------------------------------------------------*/
-		
+		/*----------------------------zoomMenu Items---------------------------------*/
+			JMenuItem zoomInItem0 = new JMenuItem("Zoom In");
+			JMenuItem zoomOutItem1 = new JMenuItem("Zoom Out");
+			
+			zoomMenu.add(zoomInItem0);
+			zoomMenu.add(zoomOutItem1);
+		/*--------------------------------------------------------------------------*/
 		/*----------------------------helpMenu Items---------------------------------*/
 			JMenuItem menuHelpItem = new JMenuItem("Acerca de");
 			
@@ -176,25 +186,57 @@ public class MainFrame extends JFrame {
 		fileAddParkingItem1.addActionListener((ActionEvent e) -> {
 			new ParkingLotUploadFrame();
 		});
+		fileSaveItem2.addActionListener((ActionEvent e) -> {
+			save();
+		});
 		
-		menuHelpItem.addActionListener((ActionEvent e) -> {
-			
+		zoomInItem0.addActionListener((ActionEvent e) -> {
+			if(this.showTable == 0) {
+				tablesPanel.zoom(true, tablesPanel.getTableParking());
+			}
+			else {
+				tablesPanel.zoom(true, tablesPanel.getTableCar());
+			}
+		});
+		
+		zoomOutItem1.addActionListener((ActionEvent e) -> {
+			if(this.showTable == 0) {
+				tablesPanel.zoom(false, tablesPanel.getTableParking());
+			}
+			else {
+				tablesPanel.zoom(false, tablesPanel.getTableCar());
+			}
+		});
+		
+		menuHelpItem.addActionListener(AcctionEvent -> {
+			JOptionPane.showMessageDialog(null, "Contacte al proveedor de software en caso de necesitar ayuda");
 		});
 		
 		/*-----------------------------------------Accelerators-----------------------------------------------*/
 		fileAddCarItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
 		fileAddParkingItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+		fileSaveItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK));
+		zoomInItem0.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, InputEvent.CTRL_DOWN_MASK));
+		zoomOutItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK));
 		menuHelpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 		/*---------------------------------------------------------------------------------------------------*/
 	}
 	
+	//Call this in case you need to add a fuction to save all data in "Parking Lot Directory" files.
+	public void save() {
+		
+		int n = JOptionPane.showConfirmDialog(null,"¿Guardar Datos?" ,"Parking Lot Control", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		if(n == JOptionPane.OK_OPTION) {	
+	    	ParkingLotControl.getParkingLotControl().getMainDirectory().writeFiles();
+	    }
+	}
 	
 	//Use this to manage program shut down.
 	public void handleClosing() {
 		int n = JOptionPane.showConfirmDialog(null,"¿Desea salir?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-	    if(n == JOptionPane.OK_OPTION) {
-
-	    	ParkingLotControl.getParkingLotControl().getMainDirectory().writeFiles();
+	    if(n == JOptionPane.OK_OPTION) {	
+	    	
+	    	save();
 	    	
 		    System.exit(getDefaultCloseOperation());
 		}       

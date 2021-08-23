@@ -1,4 +1,4 @@
-package parkinglotcontrol.models;
+package parkinglotcontrol.gui.frames;
 
 
 import java.awt.BorderLayout;

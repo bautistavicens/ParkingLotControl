@@ -316,6 +316,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			String carOwner = textFieldOwner.getText().toUpperCase();
 			String selectedBrand = comboBoxBrands.getSelectedItem().toString();
 			String selectedFloor = comboBoxFloor.getSelectedItem().toString();
+			
 			ParkingLot spl = null;
 			/*---------------------------------------------TIME------------------------------------------------------*/
 			String dayIn = textPaneIn.getText();
@@ -332,26 +333,39 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 			/*----------------------------------------------------------------------------------------------------*/
 			//DO NOT TOUCH.
 			boolean success = false;
-			
-			//This changes the "Occupancy" of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
-			for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
-				//This gets the ParkingLot
-				if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
-					//This check if the ParkingLot is free or not.
-					if(pl.isOccupancy() == false) {
+			if(carLicencePlate.equals("")) {
+				JOptionPane.showMessageDialog(null, "Ingrese los datos de la patente del vehículo!", "!", JOptionPane.WARNING_MESSAGE);
+				
+				success = false;
+			}
+			else {
+				if(carOwner.equals("")) {
+					JOptionPane.showMessageDialog(null, "Ingrese el nombre, apellido o DNI del dueño del vehículo!", "!", JOptionPane.WARNING_MESSAGE);
 					
-						pl.changeOccupancy(true);
+					success = false;
+				}
+				else {
+					//This changes the "Occupancy" of the ParkingLot in "parkingLotsList" ArrayList on ParkingLotControl class
+					for(ParkingLot pl : ParkingLotControl.getParkingLotControl().getParkingLotsList()) {
+						//This gets the ParkingLot
+						if(pl.getFloor().equals(selectedFloor) && pl.getParkingNumber() == selectedParkingNumber) {
+							//This check if the ParkingLot is free or not.
+							if(pl.isOccupancy() == false) {
+					
+								pl.changeOccupancy(true);
 						
-						pl.setReservation(dayIn, dayOut, timeReservationIn, timeReservationOut);
+								pl.setReservation(dayIn, dayOut, timeReservationIn, timeReservationOut);
 						
-						spl = pl;
+								spl = pl;
 						
-						success = true;
+								success = true;
 						
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "El estacionamiento está ocupado!", "!", JOptionPane.WARNING_MESSAGE);
-						success = false;
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "El estacionamiento está ocupado!", "!", JOptionPane.WARNING_MESSAGE);
+								success = false;
+							}
+						}
 					}
 				}
 			}
