@@ -11,7 +11,7 @@ import parkinglotcontrol.models.User;
 public class ParkingLotControl implements PLCUploadMethods {
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
-	public User user;
+	private User user;
 	private MainDirectory mainDirectory;
 	private static ParkingLotControl parkingLotControl;
 	
@@ -83,5 +83,8 @@ public class ParkingLotControl implements PLCUploadMethods {
 	public void addParkingLot(ParkingLot parking) {
 		this.parkingLotsList.add(parking);
 	}
-		 
+	
+	public void registerUser(String username, String email, char[] pass) {
+		user = new User(username, email, pass); 
+	}
 }
