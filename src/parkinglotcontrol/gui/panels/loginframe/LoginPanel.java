@@ -7,19 +7,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.LoginFrame;
 import parkinglotcontrol.gui.frames.MainFrame;
+import parkinglotcontrol.models.User;
 
 public class LoginPanel extends JPanel {
 
 	private static final long serialVersionUID = 1096861959201942703L;
 	private LoginFrame lFrame;
-	private JTextField textField;
+	private JTextField UserEmailTextField;
 	private JPasswordField passwordField;
 
 	public LoginPanel(LoginFrame lFrame) {
@@ -60,10 +63,10 @@ public class LoginPanel extends JPanel {
 	
 	public void initTextFields() {
 		
-		textField = new JTextField();
-		textField.setBounds(74, 91, 217, 26);
-		textField.setColumns(10);
-		this.add(textField);
+		UserEmailTextField = new JTextField();
+		UserEmailTextField.setBounds(74, 91, 217, 26);
+		UserEmailTextField.setColumns(10);
+		this.add(UserEmailTextField);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(74, 149, 217, 28);
@@ -100,8 +103,7 @@ public class LoginPanel extends JPanel {
 		btnLogIn.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		btnLogIn.addActionListener(ActionEvent -> {
-			MainFrame.getMainFrame();
-			lFrame.dispose();
+			this.userAuthentication();
 		});	
 		
 		this.add(btnLogIn);
@@ -121,5 +123,31 @@ public class LoginPanel extends JPanel {
 		
 		this.add(btnAddUser);
 
+	}
+	
+	public void userAuthentication() {
+		String emailUsername = UserEmailTextField.getText().trim();
+		
+		for(User user : ParkingLotControl.getParkingLotControl().getUsersList()) {
+			
+			if(user.getEmail().equals(emailUsername) || user.getUsername().equals(emailUsername)) {
+				
+				if(user.getPassword().equals(passwordField.getPassword())){
+					
+					ParkingLotControl.getParkingLotControl().setLogedUser(user);
+					
+					MainFrame.getMainFrame();
+					
+					lFrame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "El usuario no está registrado", "!", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		
 	}
 }

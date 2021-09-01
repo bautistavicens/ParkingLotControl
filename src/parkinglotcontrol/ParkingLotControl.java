@@ -1,22 +1,28 @@
 package parkinglotcontrol;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import parkinglotcontrol.files.MainDirectory;
+import parkinglotcontrol.files.UsersFile;
 import parkinglotcontrol.interfaces.PLCUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
 import parkinglotcontrol.models.User;
 
 public class ParkingLotControl implements PLCUploadMethods {
+	private User logedUser = null;
+	private ArrayList<User> usersList;
 	private ArrayList<Car> carsList;
 	private ArrayList<ParkingLot> parkingLotsList;
-	private User user;
 	private MainDirectory mainDirectory;
 	private static ParkingLotControl parkingLotControl;
 	
 	//Don´t use this builder, use ".getParkingLotControl()"
 	private ParkingLotControl(){
+		usersList = new ArrayList<User>();
 		carsList = new ArrayList<Car>();
 		parkingLotsList = new ArrayList<ParkingLot>();
 		this.setMainDirectory(new MainDirectory());
@@ -33,14 +39,24 @@ public class ParkingLotControl implements PLCUploadMethods {
 		 return parkingLotControl;
 	}
 	
-	
-	public User getUser() {
-		return user;
+
+	public User getLogedUser() {
+		return logedUser;
 	}
 
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
+	}
+
+
+	public ArrayList<User> getUsersList() {
+		return usersList;
+	}
+
+
+	public void setUsersList(ArrayList<User> usersList) {
+		this.usersList = usersList;
 	}
 
 
@@ -85,6 +101,13 @@ public class ParkingLotControl implements PLCUploadMethods {
 	}
 	
 	public void registerUser(String username, String email, char[] pass) {
-		user = new User(username, email, pass); 
+		usersList.add(new User(username, email, pass));
+		UsersFile usersFile = new UsersFile();
+		try {
+			usersFile.writeFile();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error de registro de usuario", "Error!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 }

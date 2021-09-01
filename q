@@ -1,0 +1,417 @@
+[33mcommit 54cfa82e06ab933fa60bf89aa9bcddfc84e08cd4[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Aug 24 02:06:48 2021 -0300
+
+    Added:
+            - LoginFrame:
+             * "upload" method.
+    
+             - RegisterPanel.
+    
+             - LoginPanel.
+    
+             - ParkingLotControl:
+                    * User "user" property;
+                    * "registerUser" method.
+    Modified:
+    
+            - User:
+                    * "password" property.
+
+[33mcommit b2c36aea6b825e30536b8e3ba43bd88ad234f034[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Mon Aug 23 18:06:56 2021 -0300
+
+    Added:
+            - UsersFile class;
+            - User;
+            - images (packages):
+                    * add_user_icon.png;
+                    * password_icon_log.png;
+                    * login_icon.png.
+    Modified:
+            - LoginFrame (general).
+
+[33mcommit 2cdd3a6920c7f4a8d51e3bd96244d1df233eea8e[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Mon Aug 23 15:10:42 2021 -0300
+
+    Added:
+            - LoginFrame class.
+            - SaveData interface.
+    Modified:
+            - TablesPanel:
+                    * "zoom" method.
+            - CarCalendarFrame.
+            - CarUploadFrame.
+            - CustomCalendar.
+            - TableParking.
+
+[33mcommit 3d80746621a66b0ba2ac12396226c9d61dad4ffe[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Aug 19 12:56:26 2021 -0300
+
+    added:
+            - "CarParkingLotNumberComparator" Class.
+    
+    modified:
+            - TableCar builder.
+    
+            - Tableparking builder.
+    
+            - MainFrame:
+                    * method "initMenuBar"
+
+[33mcommit f764febd389fb33729061b19d05d9b700a2fef20[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Wed Aug 18 23:38:20 2021 -0300
+
+    Added:
+            - images (package):
+                    * buttons (files):
+                            + printer_icon_small.png;
+                            + printer_icon_big.png.
+            - TablesPanel:
+                    * JButton "btnPrint".
+
+[33mcommit 236195edcc24d875d440dc2ff17b0be0f9f490d7[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Aug 17 17:20:27 2021 -0300
+
+    Added:
+            - MainFrame:
+                    *initMenuBar():
+                            +JMenuItem "filePrintItem2" (ActionListeneer,
+                            Accelerator).
+    
+            - TablesPanel:
+                    * Getters/Setters for "tableCar" and "tableParking".
+    
+            - images (package):
+                    - buttons (file):
+                            + "pencil_icon_small";
+                            + "pencil_icon_big".
+
+[33mcommit 918a13ffc1c2784df362a36b525d8ded90dda66e[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sat Aug 7 21:23:19 2021 -0300
+
+    Modified:
+            - OccupancyTime:
+                    * LocalTime "startTime" property changed to String type;
+                    * LocalTime "endTime" property changed to String type;
+                    * Getters/Setters of "startTime".
+                    * Getters/Setters of "endTime".
+    
+            - ParkingLot:
+                    * "setReservationNoHour" method.
+    
+            - CarUploadFrame:
+                    * "upload" method.
+
+[33mcommit b31b28dfdf0c07c348834a5cd36623d44e87f15a[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sat Aug 7 15:50:31 2021 -0300
+
+    Added:
+            - CarUploadFrame:
+                    * JSpinner "spinnerDayInHour".
+
+[33mcommit 1cfdd9ee6e48767a4cfc30dfc78b1f0ae1d27e5c[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sat Aug 7 15:29:45 2021 -0300
+
+    Added:
+            - CarUploadFrame:
+                    * Comments added.
+    
+                    * CarCalendarFrame "calendar" property.
+    Modified:
+            - CarUploadFrame:
+                    * "initTextPanes" method removed.
+    
+                    * class builder modified.
+
+[33mcommit 676102dc061c92fe0685f323d8c6e9cb5cfeec7e[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Fri Aug 6 02:32:11 2021 -0300
+
+    Modified:
+            - CarUploadFrame:
+                    * "upload" method.
+                    * JTextPane "textPaneIn" changed to JFormattedTextField.
+                    * JTextPane "textPaneOut" changed to
+                      JFormattedTextField.
+    
+            - CustomCalendarFrame changed name to CarCalendarFrame.
+    
+            - OccupancyTime:
+                    * LocalDate "startDate" changed to String.
+                    * LocalDate "endDate" changed to String.
+    
+    Added:
+            - CarCalendarFrame:
+                    *JButton "OkButton".
+    
+            - ParkingLot:
+                    * "setReservationNoTime" method.
+    
+            - Images (buttons):
+                    * "arrow_down_icon.png".
+
+[33mcommit d0d6800143c7fced978dcd05ee7b50c9932ba9a5[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Wed Aug 4 18:35:02 2021 -0300
+
+    Added:
+            - Images (package):
+                    * calendar_icon_small.png.
+    
+            - CustomCalendarFrame:
+                    * "handleClosing" method.
+    
+            - CarUploadFrame:
+                    * CustomCalendarFrame "calendar" property.
+                    * JButton "btnCalendarIn"
+                    * JButton "btnCalendarOut".
+                    * JTextPane "JTextPaneIn".
+                    * JTextPane "JTextPaneOut".
+    
+    Modified:
+            *CustomCalendar:
+                    * "setDefaultCloseOperation" method changed to
+                      "DISPOSE_ON_CLOSE".
+    
+            *CustomCalendarFrame:
+                    * "setDefaultCloseOperation" method changed to
+                    "DO_NOTHING_ON_CLOSE".
+
+[33mcommit 87c0b3a657d523ebec961bd7a063f565c123b212[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Aug 3 15:22:39 2021 -0300
+
+    Modified:
+            - CarUploadFrame:
+                    * "upload" method.
+
+[33mcommit bf4faf6bf1365584f345216a86767d721498c737[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Aug 3 15:01:05 2021 -0300
+
+    Added:
+            - CarsFile class.
+    
+    Modified:
+            - MainDirectory:
+                    * "writeFiles" method;
+                    * "readFiles" method.
+            - CarUploadFrame:
+                    * "upload" method
+
+[33mcommit 71d076de05a75e6e07b2da134d22b6b9beccf401[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Mon Aug 2 00:38:26 2021 -0300
+
+    Modified:
+            - CarUploadFrame:
+                    * "upload" method.
+    
+            - Car:
+                    * deleted property "idCar".
+    
+            -TableCar:
+                    * deleted "idCar" from switch.
+    
+    Added:
+            - CarBrands:
+                    * added: "NOTREGISTERED("-")".
+    
+            - CarUploadFrame:
+                    * JButton:
+                            +"btnAceptar";
+                            + "btnCancelar".
+    
+                    * "initButtons" method.
+            - Car:
+                    * new contructor "Car(String licencePlate, String
+                      owner, String brand, ParkingLot parking).
+
+[33mcommit 2a0b88a89a2c08c5f38fa1ba1c9b66072c111156[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sun Aug 1 19:19:01 2021 -0300
+
+    Added:
+            - CarUploadFrame (properties):
+                    * JComboBox:
+                            @ "comboBoxBrands";
+                            @ "comboBoxFloor";
+                            @ "comboBoxParkingLotsId".
+    
+                    * DefaultComboBoxModel:
+                            @ "carBrandsComboBoxMode";
+                            @ "parkingLotsIdComboBoxModel".
+                    * floors.
+            - CarUploadFrame (methods):
+                    * "getParkingLotsNumbers";
+                    * "initJComboBoxes".
+    Modifies:
+            - "ParkingLotIdComparator" name changed to
+              "ParkingLotNumberComparator".
+
+[33mcommit c7d80cc629b62b056058c9923c76b6345d938514[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Fri Jul 30 20:12:40 2021 -0300
+
+    Added:
+            - CarUploaFrame:
+                    * "initLabels" method.
+                    * "initTextAreas" method.
+                    * "initJComboBoxes" method.
+    fixed:
+            - Enum: "CarBrands" -> Brands titles.
+
+[33mcommit 325afb31c68572a6a952abd6f341688e6fca8992[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Jul 29 19:06:45 2021 -0300
+
+    Error Fixed:
+            -ParkingLotsFiles now saves data
+
+[33mcommit d03be4e41ef6118f26bee7f8ed97906aa79da224[m
+Merge: 72f2ebb 7192c37
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Jul 29 18:30:35 2021 -0300
+
+    Merge branch 'main' of https://github.com/bautistavicens/ParkingLotControl
+
+[33mcommit 72f2ebb1e6cd9228a6620d1187932a6a9bf0c77d[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Jul 29 18:20:21 2021 -0300
+
+    Added:
+            - Package: "files".
+            - Class: "MainDirectory".
+            - Class: "ParkingLotsFile".
+            - ParkingLotControl "mainDirectory" property.
+    
+    Modified:
+            - MainFrame: "handleClosing" method.
+            - MainFrame: "Constructor"
+
+[33mcommit 7192c37032feaea7491e85ce35ab1e37fc55fa81[m
+Author: Bautista Vicens <65306461+bautistavicens@users.noreply.github.com>
+Date:   Mon Jul 26 10:43:48 2021 -0300
+
+    Added README.
+
+[33mcommit 176ec52545a4b8e8b06ee813245edb13cc422e12[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Mon Jul 26 10:09:37 2021 -0300
+
+    Added:
+            -CarUploadFrame.
+    
+    Modified:
+            -MainFrame:
+                    *MenuBar (Item Added).
+
+[33mcommit 8285ac3188f1fd7f87ff075ad44c0ba163309f41[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sun Jul 25 23:47:42 2021 -0300
+
+    Modified:
+            -MainFrame:
+                    *"handleClosing" method.
+            -DashboardButtonsPanel:
+                    *JButton btnExit mouseListener: mouseClicked event.
+
+[33mcommit cfb11f6e07cb570c92495d74b8a836c1ebc2ba27[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sun Jul 25 21:28:42 2021 -0300
+
+    Modified:
+            -ParkingLotUploadFrame:
+                    *JButton "btnEliminarTodo" changed ActionListener to
+                    MouseListener.
+    
+                    *JButton "btnEliminarTodo" properties modified.
+
+[33mcommit f49b61bfaace57f0e27cbb124d771e026026e5bd[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Sun Jul 25 21:07:17 2021 -0300
+
+    Modified:
+            -ParkingLotUploadFrame:
+                    *JButton "btnEliminar" resizable icon set.
+                    *Changed ActionListener to MouseListener.
+
+[33mcommit bfbbb3db81f819f032838d4ebeecb575d4b84aa4[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Fri Jul 23 21:44:48 2021 -0300
+
+    Added:
+            -MainFrame:
+                    *Exception Handling on method "initCenterPanel".
+
+[33mcommit ec5941dd89cd6dfa164a93b046c0cd9cc92ac1c7[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Jul 22 08:41:15 2021 -0300
+
+    Modified:
+            - JOptionPane -> On MainFrame and ParkingLotUploadFrame
+            - "upload" Method on ParkingLotUploadFrame.
+
+[33mcommit 69b6bafccb30fec22705e7248701ec71edeab78d[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Thu Jul 22 08:21:02 2021 -0300
+
+    Added:
+            - "interfaces" package
+            - "UploadMethods" Interface
+    Mofied:
+            - ParkingLotControl:
+                    *Interface "UploadMethods" implemented.
+            - ParkingLotUploadFrame:
+                    *"btnAceptar" actionListener modified -> ParkingLot upload
+                    method ready.
+
+[33mcommit 007ba09550b8ba9c03fe8bf680d140c38d636525[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Jul 20 21:13:43 2021 -0300
+
+    Added:
+            -TablesPanel:
+                    *btnsPanel JPanel.
+                    *initButtons(int) function:
+                            °btnEliminarTodo JButton (ActionListener).
+    Modified:
+            -TablesPanel:
+                    *btnEliminar now is in initButtons(int) function.
+
+[33mcommit 36084b28a22d83187505a717e6317dde2207ed93[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Jul 20 20:34:49 2021 -0300
+
+    Added:
+            -MainFrame:
+                    *handleClosing function.
+    
+                    *changed the "defaultCloseOperation" set
+                    "DO_NOTHING_ON_CLOSE".
+    
+            -ParkingLotUploadFrame:
+                    *"btnAceptar" action event modified.
+
+[33mcommit 28f0e72020e1a2f7daa432c00feeae933de42f31[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Jul 20 18:40:55 2021 -0300
+
+    ParkingLotUploadFrame modifications:
+    -btnCancel actionListener added with action performed.
+    -btnAceptar actionListener added without action performed.
+
+[33mcommit 75353be5ebc919a0c22fe2d89da2968d5d155c13[m
+Author: Bautista <bautivicens@gmail.com>
+Date:   Tue Jul 20 18:07:02 2021 -0300
+
+    First commit

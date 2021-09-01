@@ -7,10 +7,12 @@ import javax.swing.JOptionPane;
 /*El directorio se creará en la carpeta APPDATA*/
 public class MainDirectory {
 	public static String PATH = System.getenv("APPDATA") + File.separator + "ParkingLotControl";
+	private UsersFile usersFile;
 	private ParkingLotsFile parkingLotsFile;
 	private CarsFile carsFile;
 	
 	public MainDirectory() {
+		this.usersFile = new UsersFile();
 		this.parkingLotsFile = new ParkingLotsFile();
 		this.carsFile = new CarsFile();
 		
@@ -23,9 +25,11 @@ public class MainDirectory {
 				parkingLotsFile.writeFile();
 				carsFile.writeFile();
 				
+				
 			}
 			else {
 				if(mainDirectory.mkdir()) {
+					usersFile.writeFile();
 					parkingLotsFile.writeFile();
 					carsFile.writeFile();
 				}

@@ -1,6 +1,10 @@
 package parkinglotcontrol.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 7015544203958162046L;
 	private String username;
 	private String email;
 	private char[] password;
