@@ -2,7 +2,10 @@ package parkinglotcontrol.gui.panels.loginframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Arrays;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -13,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import encryptor.crypto.Encryptor;
 import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.LoginFrame;
 import parkinglotcontrol.gui.frames.MainFrame;
@@ -125,15 +129,31 @@ public class LoginPanel extends JPanel {
 
 	}
 	
+	private char[] passwordDecrypt(byte[] password, SecretKey key) {
+		try {
+		
+			Cipher cipher = Encryptor.cipherGen();
+		
+			char[] passwordDecrypted = Encryptor.decryptData(password, key, cipher);
+			
+			return passwordDecrypted;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public void userAuthentication() {
+		
 		String emailUsername = UserEmailTextField.getText().trim();
 		
 		for(User user : ParkingLotControl.getParkingLotControl().getUsersList()) {
 			
 			if(user.getEmail().equals(emailUsername) || user.getUsername().equals(emailUsername)) {
 				
-				if(user.getPassword().equals(passwordField.getPassword())){
-					
+				if(Arrays.equals(passwordField.getPassword(), passwordDecrypt(user.getPassword(), user.getKey())) == true){
+
 					ParkingLotControl.getParkingLotControl().setLogedUser(user);
 					
 					MainFrame.getMainFrame();

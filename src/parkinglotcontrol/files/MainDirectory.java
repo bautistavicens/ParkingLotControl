@@ -22,6 +22,7 @@ public class MainDirectory {
 		File mainDirectory = new File(PATH);
 		try {
 			if(mainDirectory.exists()) {
+				usersFile.writeFile();
 				parkingLotsFile.writeFile();
 				carsFile.writeFile();
 				
@@ -46,11 +47,13 @@ public class MainDirectory {
 		File mainDirectory = new File(PATH);
 		try {
 			if(mainDirectory.exists()) {
+				usersFile.readFile();
 				parkingLotsFile.readFile();
 				carsFile.readFile();
 			}
 			else {
 				if(mainDirectory.mkdir()) {
+					usersFile.writeFile();
 					parkingLotsFile.writeFile();
 					carsFile.writeFile();
 				}

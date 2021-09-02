@@ -17,10 +17,7 @@ import com.mindfusion.scheduling.ThemeType;
 
 
 public class CustomCalendar extends JFrame {	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;	
 		
 	java.util.Calendar selectedDate = java.util.Calendar.getInstance();

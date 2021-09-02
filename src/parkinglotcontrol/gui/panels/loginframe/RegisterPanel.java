@@ -1,26 +1,27 @@
 package parkinglotcontrol.gui.panels.loginframe;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 
-import javax.swing.JPanel;
-
-import parkinglotcontrol.ParkingLotControl;
-import parkinglotcontrol.gui.frames.LoginFrame;
-import parkinglotcontrol.gui.frames.ParkingLotUploadFrame;
-import parkinglotcontrol.interfaces.GuiUploadMethod;
-
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
+
+import encryptor.crypto.Encryptor;
+import parkinglotcontrol.ParkingLotControl;
+import parkinglotcontrol.gui.frames.LoginFrame;
+import parkinglotcontrol.gui.frames.ParkingLotUploadFrame;
+import parkinglotcontrol.interfaces.GuiUploadMethod;
+import parkinglotcontrol.models.User;
 
 public class RegisterPanel extends JPanel implements GuiUploadMethod {
 
@@ -106,10 +107,17 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		btnOk.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnOk.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOk.addActionListener((ActionEvent e)-> {
-		     int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		     if(n == JOptionPane.OK_OPTION) {
-		  	  
-		    	 this.upload();
+			int n = JOptionPane.showConfirmDialog(null,"¿Cargar datos?" ,"!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		    
+			if(n == JOptionPane.OK_OPTION) {
+				
+		    	//Change this in the future.
+		    	if(ParkingLotControl.getParkingLotControl().getUsersList().size() > 0) {
+		    		JOptionPane.showMessageDialog(null, "Ya existe un usuario en el sistema.", "!", JOptionPane.WARNING_MESSAGE);
+		    	}
+		    	else {
+		    		this.upload(); 
+		    	}
 		     }
 		});
 		
@@ -141,13 +149,17 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		add(lblRegistry);
 	}
 	
-	public boolean emailChecker(String email) {
+	
+	private boolean emailChecker(String email) {
 		if (!email.contains("@") || !email.contains(".")) {
 			return false;
 		}
+		
 		return true;
 	}
-	public boolean usernameChecker(String username) {
+	
+	
+	private boolean usernameChecker(String username) {
 		
 		if(username.length() < MIN_USER_PASSWORD_LENGTH || username.length() >= MAX_USER_PASSWORD_LENGTH) {
 			return false;
@@ -160,7 +172,25 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		}
 		return true;
 	}
-	public boolean passwordChecker(char [] password) {	
+	
+	
+	public boolean checkUserExistance(String email, String username) {
+		for(User user : ParkingLotControl.getParkingLotControl().getUsersList()) {
+			if(user.getUsername().equals(username)) {
+				JOptionPane.showMessageDialog(null, "El nombre de usuario ya se encuentra registrado.", "!", JOptionPane.WARNING_MESSAGE);
+				return true;
+			}
+			if(user.getEmail().equals(email)) {
+				JOptionPane.showMessageDialog(null, "El email ya se encuentra registrado.", "!", JOptionPane.WARNING_MESSAGE);
+				return true;
+			}
+		}
+		
+		return false;
+		}
+	
+	
+	private boolean passwordChecker(char [] password) {	
 		
 		if(password.length < MIN_USER_PASSWORD_LENGTH || password.length >= MAX_USER_PASSWORD_LENGTH) {
 			return false;
@@ -174,33 +204,67 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		 
 		return true;
 	}
-	public void upload() {
-		String username = usernameTextField.getText().trim();
-		String email = emailTextField.getText().trim();
-		char[] password = passwordField.getPassword();
-		if (emailChecker(email) == true) {
+	
+	private byte[] passwordEncrypt(char[] password, SecretKey key) {
+		
+		try {
+		
+			Cipher cipher = Encryptor.cipherGen();
+		
+			byte[] passwordEncrypted = Encryptor.encryptData(password, key, cipher);
 			
-			if(passwordChecker(password) == true) {
+			return passwordEncrypted;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	public void upload() {
+		try {
+			String username = usernameTextField.getText().trim();
+			String email = emailTextField.getText().trim();
+			char[] password = passwordField.getPassword();
+			SecretKey key = Encryptor.keyGen();
+		
+			if (emailChecker(email) == true) {
+			
+				if(passwordChecker(password) == true) {
 				
-				if(usernameChecker(username) == true) {
+					if(usernameChecker(username) == true) {
+						
+						if(checkUserExistance(email, username) == false) {
 					
-					ParkingLotControl.getParkingLotControl().registerUser(username, email, password);
+							byte[] passwordEncrypted = passwordEncrypt(password, key);
 					
-					JOptionPane.showMessageDialog(null, "Usuario creado!", "!", JOptionPane.INFORMATION_MESSAGE);
+							ParkingLotControl.getParkingLotControl().registerUser(username, email, passwordEncrypted, key);
 					
-					lFrame.initLoginPanel();
+							JOptionPane.showMessageDialog(null, "Usuario creado!", "!", JOptionPane.INFORMATION_MESSAGE);
 					
+							lFrame.initLoginPanel();
+					
+						}
+						else {
+							//pass.
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nombre de usuario no valido!", "!", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Nombre de usuario no valido!", "!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Contraseña invalida!", "!", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Contraseña invalida!", "!", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "E-mail no valido!", "!", JOptionPane.WARNING_MESSAGE);
 			}
-		}
-		else {
-			JOptionPane.showMessageDialog(null, "E-mail no valido!", "!", JOptionPane.WARNING_MESSAGE);
+		} catch (Exception e) {
+			
+			JOptionPane.showMessageDialog(null, "No se ha podido registrar al usuario!", "Fatal Error!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 }

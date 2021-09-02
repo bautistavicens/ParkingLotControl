@@ -1,12 +1,11 @@
 package parkinglotcontrol;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.crypto.SecretKey;
 import javax.swing.JOptionPane;
 
 import parkinglotcontrol.files.MainDirectory;
-import parkinglotcontrol.files.UsersFile;
 import parkinglotcontrol.interfaces.PLCUploadMethods;
 import parkinglotcontrol.models.Car;
 import parkinglotcontrol.models.ParkingLot;
@@ -100,12 +99,11 @@ public class ParkingLotControl implements PLCUploadMethods {
 		this.parkingLotsList.add(parking);
 	}
 	
-	public void registerUser(String username, String email, char[] pass) {
-		usersList.add(new User(username, email, pass));
-		UsersFile usersFile = new UsersFile();
+	public void registerUser(String username, String email, byte[] password, SecretKey key ) {
+		usersList.add(new User(username, email, password, key));
 		try {
-			usersFile.writeFile();
-		} catch (IOException e) {
+			ParkingLotControl.getParkingLotControl().getMainDirectory().writeFiles();
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error de registro de usuario", "Error!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}

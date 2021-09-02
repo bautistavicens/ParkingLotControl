@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.panels.loginframe.LoginPanel;
 import parkinglotcontrol.gui.panels.loginframe.RegisterPanel;
 
@@ -21,6 +22,8 @@ public class LoginFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+		
+		ParkingLotControl.getParkingLotControl().getMainDirectory().readFiles();
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,5 +52,5 @@ public class LoginFrame extends JFrame {
 		getContentPane().repaint();
 	}
 	
-	
 }
+	
