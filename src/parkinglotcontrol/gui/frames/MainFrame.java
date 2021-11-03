@@ -41,7 +41,7 @@ public class MainFrame extends JFrame implements SaveData {
         
 		ParkingLotControl.getParkingLotControl().getMainDirectory().readFiles();	//Lee los archivos(si existen), sino crea una
 																					//los archivos y/o el directorio.
-		setTitle("Parking Lot Control");
+		setTitle("Parking Lot Control (BETA)");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		setIconImage(new ImageIcon(getClass().getResource("/parkinglotcontrol/images/logo/program_icon.png")).getImage());
