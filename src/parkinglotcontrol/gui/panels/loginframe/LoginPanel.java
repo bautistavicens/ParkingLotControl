@@ -21,6 +21,7 @@ import parkinglotcontrol.ParkingLotControl;
 import parkinglotcontrol.gui.frames.LoginFrame;
 import parkinglotcontrol.gui.frames.MainFrame;
 import parkinglotcontrol.models.User;
+import textprompt.TextPrompt;
 
 public class LoginPanel extends JPanel {
 
@@ -72,16 +73,19 @@ public class LoginPanel extends JPanel {
 		UserEmailTextField.setColumns(10);
 		this.add(UserEmailTextField);
 		
+		addPlaceholders(UserEmailTextField, "Email/Usuario");
+		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(74, 149, 217, 28);
 		this.add(passwordField);
 		
+		addPlaceholders(passwordField, "Contraseña");
 	}
 	
 	public void initCheckBoxes() {
 		JCheckBox chckbxShow = new JCheckBox("Mostrar");
 		chckbxShow.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		chckbxShow.setBounds(222, 183, 69, 26);
+		chckbxShow.setBounds(228, 183, 69, 26);
 		chckbxShow.setBackground(new Color(0, 128, 128));
 		this.add(chckbxShow);
 	
@@ -126,7 +130,23 @@ public class LoginPanel extends JPanel {
 		});	
 		
 		this.add(btnAddUser);
+		
+		JButton btnForgotPassword = new JButton("\u00BFHas olvidado tu contrase\u00F1a?");
+		btnForgotPassword.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnForgotPassword.setBounds(43, 186, 179, 22);
+		btnForgotPassword.setContentAreaFilled(false);
+		btnForgotPassword.setBorderPainted(false);
+		this.add(btnForgotPassword);
 
+		btnForgotPassword.addActionListener(ActionEvent -> {
+			JOptionPane.showMessageDialog(null, "Contacte al proveedor del software para restablecer la contraseña");
+		});	
+	}
+	
+	public void addPlaceholders(JTextField textField, String message) {
+		TextPrompt placeholder = new TextPrompt(message, textField);
+		placeholder.changeAlpha(0.75f);
+		placeholder.changeStyle(Font.ITALIC);
 	}
 	
 	private char[] passwordDecrypt(byte[] password, SecretKey key) {

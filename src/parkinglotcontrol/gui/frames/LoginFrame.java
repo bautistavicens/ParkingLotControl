@@ -2,6 +2,7 @@ package parkinglotcontrol.gui.frames;
 
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,7 @@ public class LoginFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(368, 362);
 		setTitle("Parking Lot Control");
+		setIconImage(new ImageIcon(getClass().getResource("/parkinglotcontrol/images/logo/program_icon.png")).getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);

@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="libs/JPlanner.jar"/>
 	<classpathentry kind="lib" path="libs/Encryptor.jar" sourcepath="C:/Users/Bautista/Desktop/Program Resources/Encryptor/src.zip"/>
+	<classpathentry kind="lib" path="C:/Users/Bautista/Desktop/Program Resources/TextPrompt/TextPrompt.jar" sourcepath="C:/Users/Bautista/Desktop/Program Resources/TextPrompt/src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

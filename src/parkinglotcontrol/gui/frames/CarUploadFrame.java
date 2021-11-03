@@ -375,12 +375,7 @@ public class CarUploadFrame extends JFrame implements GuiUploadMethod {
 				ParkingLotControl.getParkingLotControl().addCar(new Car(carLicencePlate, carOwner, selectedBrand, spl));
 				
 				//Actualices the MainFrame.
-				MainFrame.getMainFrame().getContentPane().removeAll();
-				MainFrame.getMainFrame().initWestPanel();
-				MainFrame.getMainFrame().initNorthPanel();
-				MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-				MainFrame.getMainFrame().getContentPane().revalidate();
-				MainFrame.getMainFrame().getContentPane().repaint();
+				MainFrame.getMainFrame().actualiceMainFrame();
 				
 		    	this.dispose();
 			}

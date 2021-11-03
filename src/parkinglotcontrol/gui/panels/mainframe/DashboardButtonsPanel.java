@@ -53,12 +53,7 @@ public class DashboardButtonsPanel extends JPanel {
 			
 			public void mouseClicked(MouseEvent e) {
 				MainFrame.getMainFrame().setShowTable(0);
-				MainFrame.getMainFrame().getContentPane().removeAll();
-				MainFrame.getMainFrame().initWestPanel();
-				MainFrame.getMainFrame().initNorthPanel();
-				MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-				MainFrame.getMainFrame().getContentPane().revalidate();
-				MainFrame.getMainFrame().getContentPane().repaint();		
+				MainFrame.getMainFrame().actualiceMainFrame();
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -122,12 +117,7 @@ public class DashboardButtonsPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 
 				MainFrame.getMainFrame().setShowTable(1);
-				MainFrame.getMainFrame().getContentPane().removeAll();
-				MainFrame.getMainFrame().initWestPanel();
-				MainFrame.getMainFrame().initNorthPanel();
-				MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-				MainFrame.getMainFrame().getContentPane().revalidate();
-				MainFrame.getMainFrame().getContentPane().repaint();
+				MainFrame.getMainFrame().actualiceMainFrame();
 			}
 
 			public void mousePressed(MouseEvent e) {

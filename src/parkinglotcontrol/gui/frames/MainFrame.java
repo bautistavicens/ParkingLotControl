@@ -222,6 +222,15 @@ public class MainFrame extends JFrame implements SaveData {
 		/*---------------------------------------------------------------------------------------------------*/
 	}
 	
+	public void actualiceMainFrame() {
+		this.getContentPane().removeAll();
+		this.initWestPanel();
+		this.initNorthPanel();
+		this.initCenterPanel(MainFrame.getMainFrame().getShowTable());
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
+	}
+	
 	//Call this in case you need to add a fuction to save all data in "Parking Lot Directory" files.
 	public void save() {
 		

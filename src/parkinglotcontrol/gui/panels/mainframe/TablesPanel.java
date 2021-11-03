@@ -205,12 +205,7 @@ public class TablesPanel extends JPanel {
 							ParkingLotControl.getParkingLotControl().getParkingLotsList().remove(selectedRow);
 			    		
 							//Actualices the MainFrame.
-							MainFrame.getMainFrame().getContentPane().removeAll();
-							MainFrame.getMainFrame().initWestPanel();
-							MainFrame.getMainFrame().initNorthPanel();
-							MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-							MainFrame.getMainFrame().getContentPane().revalidate();
-							MainFrame.getMainFrame().getContentPane().repaint();
+							MainFrame.getMainFrame().actualiceMainFrame();
 						}
 						else {
 							JOptionPane.showMessageDialog(null,"El estacionamiento está en uso!", "!", JOptionPane.WARNING_MESSAGE);
@@ -224,12 +219,7 @@ public class TablesPanel extends JPanel {
 						ParkingLotControl.getParkingLotControl().getCarsList().remove(selectedRow);
 			    		
 						//Actualices the MainFrame.
-						MainFrame.getMainFrame().getContentPane().removeAll();
-						MainFrame.getMainFrame().initWestPanel();
-						MainFrame.getMainFrame().initNorthPanel();
-						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-						MainFrame.getMainFrame().getContentPane().revalidate();
-						MainFrame.getMainFrame().getContentPane().repaint();
+						MainFrame.getMainFrame().actualiceMainFrame();
 					}
 				}
 				else {
@@ -279,12 +269,7 @@ public class TablesPanel extends JPanel {
 						ParkingLotControl.getParkingLotControl().getParkingLotsList().clear();
 						
 						//Actualizes the MainFrame
-						MainFrame.getMainFrame().getContentPane().removeAll();
-						MainFrame.getMainFrame().initWestPanel();
-						MainFrame.getMainFrame().initNorthPanel();
-						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-						MainFrame.getMainFrame().getContentPane().revalidate();
-						MainFrame.getMainFrame().getContentPane().repaint();
+						MainFrame.getMainFrame().actualiceMainFrame();
 					}
 				}
 				else {
@@ -301,12 +286,7 @@ public class TablesPanel extends JPanel {
 						ParkingLotControl.getParkingLotControl().getCarsList().clear();
 						
 						//Actualices MainFrame
-						MainFrame.getMainFrame().getContentPane().removeAll();
-						MainFrame.getMainFrame().initWestPanel();
-						MainFrame.getMainFrame().initNorthPanel();
-						MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-						MainFrame.getMainFrame().getContentPane().revalidate();
-						MainFrame.getMainFrame().getContentPane().repaint();
+						MainFrame.getMainFrame().actualiceMainFrame();
 					}
 				}		
 			}

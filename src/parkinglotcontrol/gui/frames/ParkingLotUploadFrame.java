@@ -118,12 +118,7 @@ public class ParkingLotUploadFrame extends JFrame implements GuiUploadMethod {
     		ParkingLotControl.getParkingLotControl().addParkingLot(new ParkingLot(selectedFloor, (i+lastOnList)));
     	}
 		
-		MainFrame.getMainFrame().getContentPane().removeAll();
-		MainFrame.getMainFrame().initWestPanel();
-		MainFrame.getMainFrame().initNorthPanel();
-		MainFrame.getMainFrame().initCenterPanel(MainFrame.getMainFrame().getShowTable());
-		MainFrame.getMainFrame().getContentPane().revalidate();
-		MainFrame.getMainFrame().getContentPane().repaint();
+    	MainFrame.getMainFrame().actualiceMainFrame();
 		
 	}
 	

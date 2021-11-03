@@ -36,6 +36,7 @@ public class CarCalendarFrame extends JFrame implements PropertyChangeListener {
 			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			setSize(368, 362);
 			setTitle("Parking Lot Control");
+			setIconImage(new ImageIcon(getClass().getResource("/parkinglotcontrol/images/logo/program_icon.png")).getImage());
 			setLocationRelativeTo(null);
 			
 			this.CUFrame = CUFrame;

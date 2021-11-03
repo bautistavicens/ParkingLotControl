@@ -49,6 +49,13 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		
 	}
 	public void initLabels() {
+		
+		JLabel lblRegistry = new JLabel("Registro");
+		lblRegistry.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistry.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblRegistry.setBounds(96, 10, 173, 32);
+		add(lblRegistry);
+		
 		JLabel lblUsername = new JLabel("Usuario");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblUsername.setBounds(26, 74, 65, 23);
@@ -68,24 +75,24 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 	public void initTextFields() {
 		
 		usernameTextField = new JTextField();
-		usernameTextField.setBounds(101, 74, 201, 23);
+		usernameTextField.setBounds(127, 77, 201, 23);
 		add(usernameTextField);
 		usernameTextField.setColumns(10);
 		
 		emailTextField = new JTextField();
-		emailTextField.setBounds(101, 132, 201, 23);
+		emailTextField.setBounds(127, 135, 201, 23);
 		add(emailTextField);
 		emailTextField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(127, 187, 175, 23);
+		passwordField.setBounds(127, 187, 201, 23);
 		add(passwordField);
 	}
 	
 	public void initCheckBoxes() {
 		JCheckBox chckbxShow = new JCheckBox("Mostrar");
 		chckbxShow.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		chckbxShow.setBounds(233, 210, 69, 26);
+		chckbxShow.setBounds(259, 212, 69, 26);
 		chckbxShow.setBackground(new Color(0, 128, 128));
 		this.add(chckbxShow);
 	
@@ -142,16 +149,12 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 		
 		this.add(btnCancel);
 		
-		JLabel lblRegistry = new JLabel("Registro");
-		lblRegistry.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegistry.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblRegistry.setBounds(96, 10, 173, 32);
-		add(lblRegistry);
 	}
 	
 	
 	private boolean emailChecker(String email) {
 		if (!email.contains("@") || !email.contains(".")) {
+			JOptionPane.showMessageDialog(null, "E-mail invalido!", "!", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		
@@ -162,11 +165,13 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 	private boolean usernameChecker(String username) {
 		
 		if(username.length() < MIN_USER_PASSWORD_LENGTH || username.length() >= MAX_USER_PASSWORD_LENGTH) {
+			JOptionPane.showMessageDialog(null, "El nombre de usuario debe tener 6-32 caracteres de largo!", "!", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		
 		for(String PC : PROHIBITED_CHARACTERS_USERNAME) {
 			if(username.contains(PC)) {
+				JOptionPane.showMessageDialog(null, "El nombre de usuario tiene caracteres no validos!", "!", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}
 		}
@@ -193,11 +198,13 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 	private boolean passwordChecker(char [] password) {	
 		
 		if(password.length < MIN_USER_PASSWORD_LENGTH || password.length >= MAX_USER_PASSWORD_LENGTH) {
+			JOptionPane.showMessageDialog(null, "La contraseña debe tener 6-32 caracteres de largo!", "!", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		
 		for(int i=0; i < password.length; i++) {
 			if(password[i] == ' ') {
+				JOptionPane.showMessageDialog(null, "La contraseña no debe contener espacios!", "!", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}
 		}
@@ -246,20 +253,8 @@ public class RegisterPanel extends JPanel implements GuiUploadMethod {
 							lFrame.initLoginPanel();
 					
 						}
-						else {
-							//pass.
-						}
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Nombre de usuario no valido!", "!", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "Contraseña invalida!", "!", JOptionPane.WARNING_MESSAGE);
-				}
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "E-mail no valido!", "!", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) {
 			
